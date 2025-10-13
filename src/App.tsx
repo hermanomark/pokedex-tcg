@@ -1,10 +1,14 @@
 import './App.css'
+import { Button } from './components/ui/button'
+import Layout from './layout'
 
 const App = () => {
 
   return (
     <>
-      <h1>Pokedex TCG</h1>
+      <Layout>
+        <Button variant="secondary">Secondary Action</Button>
+      </Layout>
     </>
   )
 }
