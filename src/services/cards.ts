@@ -1,4 +1,5 @@
 import api from "./client";
+import { getErrorMessage } from "@/utils/errorHandler";
 
 export const getAllCards = async (
   page: number = 1, 
@@ -45,7 +46,7 @@ export const getAllCards = async (
   } catch (error: unknown) {
     console.log('Error fetching all cards', error);
 
-    throw new Error(error.response?.data?.title || 'Error fetching all cards!');
+    throw new Error(getErrorMessage(error, 'Error fetching all cards!'));
   }
 }
 
@@ -57,6 +58,6 @@ export const getCardById = async (id: string) => {
   } catch (error: unknown) {
     console.log('Error fetching card', error);
 
-    throw new Error(error.response?.data?.title || 'Error fetching card!');
+    throw new Error(getErrorMessage(error, 'Error fetching card!'));
   }
 }
