@@ -1,12 +1,12 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppSidebar } from "@/components/AppSideBar"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />
       <main>
-        <SidebarTrigger />
+        <SidebarTrigger className="cursor-pointer" />
         {children}
       </main>
     </SidebarProvider>
