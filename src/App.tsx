@@ -1,6 +1,6 @@
 import './App.css';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import Layout from './layout';
+import SidebarLayout from './layouts/SidebarLayout';
 import { AnimatePresence } from 'framer-motion';
 import { appRoutes } from './routes';
 import { Suspense } from 'react';
@@ -10,8 +10,7 @@ const App = () => {
   const location = useLocation();
 
   return (
-    <Layout>
-      {/* <Navbar /> */}
+    <SidebarLayout>
       <Suspense fallback={<SpinnerEmpty />}>
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
@@ -21,7 +20,7 @@ const App = () => {
           </Routes>
         </AnimatePresence>
       </Suspense>
-    </Layout>
+    </SidebarLayout>
   )
 }
 

@@ -41,12 +41,12 @@ const items = [
   // },
 ]
 
-export function AppSidebar() {
+const AppSidebar = () => {
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>Pokedex TCG</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -66,3 +66,5 @@ export function AppSidebar() {
     </Sidebar>
   )
 }
+
+export default AppSidebar;
