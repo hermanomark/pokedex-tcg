@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import { Fish, Bird, Origami } from "lucide-react"
 import { Link } from "react-router-dom";
 
 import {
@@ -17,28 +17,18 @@ const items = [
   {
     title: "Home",
     url: "/",
-    icon: Home,
+    icon: Fish,
   },
   {
     title: "Sets",
     url: "/sets",
-    icon: Inbox,
+    icon: Bird,
   },
   {
     title: "Series",
     url: "/series",
-    icon: Calendar,
-  },
-  // {
-  //   title: "Search",
-  //   url: "#",
-  //   icon: Search,
-  // },
-  // {
-  //   title: "Settings",
-  //   url: "#",
-  //   icon: Settings,
-  // },
+    icon: Origami,
+  }
 ]
 
 const AppSidebar = () => {

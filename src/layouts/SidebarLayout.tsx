@@ -1,5 +1,5 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import AppSidebar from "@/components/AppSideBar"
+import AppSidebar from "@/components/AppSidebar"
 
 const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -7,7 +7,7 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
       <AppSidebar />
       <main className="container min-h-screen">
         <SidebarTrigger className="cursor-pointer" />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-4">
           {children}
         </div>
       </main>

@@ -4,17 +4,15 @@ import { getCategories } from '../services/others';
 
 const CategoriesFilter = ({ selectedCategory, onCategoryChange }: { selectedCategory: string; onCategoryChange: (category: string) => void; }) => {
   const {
-    data: categories = [],
+    data: categories,
     isLoading,
     error
   } = useQuery({
     queryKey: ['categories'],
     queryFn: getCategories,
     staleTime: 5 * 60 * 1000,
-    cacheTime: 20 * 60 * 1000,
+    gcTime: 20 * 60 * 1000,
   });
-
-  const cardTypes: string[] = ['All Card Types', ...categories];
 
   if (isLoading) {
     return (
@@ -45,9 +43,12 @@ const CategoriesFilter = ({ selectedCategory, onCategoryChange }: { selectedCate
           onChange={(e) => onCategoryChange(e.target.value)}
           className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
         >
-          {cardTypes.map((cardType) => (
-            <option key={cardType} value={'All Card Types' === cardType ? '' : cardType}>
-              {cardType}
+          <option key={'All Card Types'} value="">
+            All Card Types
+          </option>
+          {Array.isArray(categories) && categories.map((category: string) => (
+            <option key={category} value={category}>
+              {category}
             </option>
           ))}
         </select>

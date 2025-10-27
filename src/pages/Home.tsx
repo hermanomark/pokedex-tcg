@@ -8,7 +8,7 @@ import GridLayout from '@/layouts/GridLayout';
 import Header from '@/components/Header';
 import LoadMore from '@/components/LoadMore';
 import { Spinner } from '@/components/ui/spinner';
-import SidebarFilter from '@/components/SideBarFilter';
+import SidebarFilter from '@/components/SidebarFilter';
 import SearchInput from '@/components/SearchInput';
 import SortButton from '@/components/SortButton';
 
@@ -59,7 +59,7 @@ const Home = () => {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isError
+    isError,
   } = useInfiniteQuery({
     queryKey: [
       'cards',
@@ -129,28 +129,27 @@ const Home = () => {
     return () => observer.disconnect();
   }, [hasNextPage, fetchNextPage]);
 
-  if (isLoading) return <p className="text-gray-700"><Spinner /></p>;
   if (isError) return <p className="text-red-700">Error: {error.message}</p>;
 
   return (
     <>
       <Header header="TCG Cards" />
-
-      <div className='flex flex-row justify-between sm:flex-row gap-4 mb-6 w-full'>
-        <SearchInput onSearch={handleSearch} value={searchTerm} />
-        <div className='flex gap-3'>
-          <SortButton onSortChange={handleSortChange} currentSort={sortBy} />
-          <SidebarFilter
-            selectedCategory={selectedCategory}
-            onCategoryChange={handleCategoryChange}
-            selectedRarities={selectedRarities}
-            onRaritiesChange={handleRaritiesChange}
-            hpRange={hpRange}
-            onHPChange={handleHPChange}
-          />
+      <div className='flex gap-3 mb-6 w-full'>
+        <div className="flex-1">
+          <SearchInput onSearch={handleSearch} value={searchTerm} />
         </div>
+        <SortButton onSortChange={handleSortChange} currentSort={sortBy} />
+        <SidebarFilter
+          selectedCategory={selectedCategory}
+          onCategoryChange={handleCategoryChange}
+          selectedRarities={selectedRarities}
+          onRaritiesChange={handleRaritiesChange}
+          hpRange={hpRange}
+          onHPChange={handleHPChange}
+        />
       </div>
-      {cards.length === 0 && (debouncedSearchTerm || selectedCategory || selectedRarities.length > 0 || hpRange[0] !== 0 || hpRange[1] !== 380) ? (
+
+      {cards.length === 0 && !isLoading && (debouncedSearchTerm || selectedCategory || selectedRarities.length > 0 || hpRange[0] !== 0 || hpRange[1] !== 380) ? (
         <div className="text-center py-8">
           <p className="text-gray-500">
             No cards found matching your criteria.
@@ -158,12 +157,23 @@ const Home = () => {
         </div>
       ) : (
         <>
-          <GridLayout>
-            {cards.map((card) => (
-              <Card key={`${card.id}-${card.name}`} card={card} type='cards' />
-            ))}
-          </GridLayout>
-          <LoadMore loadMoreRef={loadMoreRef} isFetchingNextPage={isFetchingNextPage} hasNextPage={hasNextPage} />
+          {isLoading && cards.length === 0 ? (
+            <div className="flex justify-center py-8">
+              <div className="text-sm text-gray-500 flex items-center gap-2">
+                <Spinner />
+                Loading cards...
+              </div>
+            </div>
+          ) : (
+            <>
+              <GridLayout>
+                {cards.map((card) => (
+                  <Card key={`${card.id}-${card.name}`} card={card} type='cards' />
+                ))}
+              </GridLayout>
+              <LoadMore loadMoreRef={loadMoreRef} isFetchingNextPage={isFetchingNextPage} hasNextPage={hasNextPage} />
+            </>
+          )}
         </>
       )}
     </>

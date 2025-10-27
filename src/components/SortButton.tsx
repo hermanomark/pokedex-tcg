@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import FadeUp from './FadeUp';
+import { ArrowDownUp } from 'lucide-react';
 
 const SortButton = ({ onSortChange, currentSort }: { onSortChange: (sort: string) => void; currentSort: string; }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,21 +28,8 @@ const SortButton = ({ onSortChange, currentSort }: { onSortChange: (sort: string
           className='cursor-pointer text-gray-400 flex items-center gap-2 border border-gray-300 rounded-md px-3 py-2 hover:bg-gray-100'
           title="Sort cards"
         >
-          <svg
-            className="w-5 h-5 text-gray-600"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
-            />
-          </svg>
-          <p className='text-sm'>{currentSortLabel}</p>
+         <ArrowDownUp size={16} />
+          <p className='text-xs'>{currentSortLabel}</p>
         </button>
       </FadeUp>
 
