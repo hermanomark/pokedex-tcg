@@ -8,8 +8,7 @@ const Card = ({ card: { id, name, image, logo }, type }: { card: { id: string; n
     <FadeUp>
       <div onClick={() => {
         navigate(`/cards/${id}`)
-      }} className='cursor-pointer bg-white rounded-lg shadow-md overflow-hidden flex flex-col 
-    transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:-translate-y-1'>
+      }} className='cursor-pointer bg-white rounded-lg shadow-md overflow-hidden flex flex-col transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:-translate-y-1'>
         {image && (<img className='w-full h-auto' src={`${image}/low.png`} />)}
       </div>
     </FadeUp>)

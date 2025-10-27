@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Slider } from '@/components/ui/slider';
 
 const HpSlider = ({
   onHPChange,
@@ -12,33 +13,13 @@ const HpSlider = ({
     setHpRange(currentRange);
   }, [currentRange]);
 
-  const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    const newRange: [number, number] = [Math.min(value, hpRange[1]), hpRange[1]];
+  const handleSliderChange = (value: number[]) => {
+    const newRange: [number, number] = [
+      Math.min(value[0], value[1]),
+      Math.max(value[0], value[1])
+    ];
     setHpRange(newRange);
     onHPChange(newRange);
-  };
-
-  const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    const newRange: [number, number] = [hpRange[0], Math.max(value, hpRange[0])];
-    setHpRange(newRange);
-    onHPChange(newRange);
-  };
-
-  const getTrackStyle = () => {
-    const minPercent = ((hpRange[0] - minHP) / (maxHP - minHP)) * 100;
-    const maxPercent = ((hpRange[1] - minHP) / (maxHP - minHP)) * 100;
-
-    return {
-      background: `linear-gradient(to right, 
-        #e5e7eb 0%, 
-        #e5e7eb ${minPercent}%, 
-        #3b82f6 ${minPercent}%, 
-        #3b82f6 ${maxPercent}%, 
-        #e5e7eb ${maxPercent}%, 
-        #e5e7eb 100%)`
-    };
   };
 
   return (
@@ -47,46 +28,22 @@ const HpSlider = ({
         HP Range: {hpRange[0]} - {hpRange[1]}
       </label>
 
-      <div className="px-2 mb-4">
+      <div className="px-2 mb-2">
         <div className="relative">
-          {/* Track */}
-          <div
-            className="h-2 rounded-lg"
-            style={getTrackStyle()}
-          />
-
-          {/* Min slider */}
-          <input
-            type="range"
+          <Slider
             min={minHP}
             max={maxHP}
-            value={hpRange[0]}
-            onChange={handleMinChange}
-            className="absolute top-0 left-0 w-full h-2 bg-transparent appearance-none cursor-pointer hp-slider hp-slider-min"
-          />
-
-          {/* Max slider */}
-          <input
-            type="range"
-            min={minHP}
-            max={maxHP}
-            value={hpRange[1]}
-            onChange={handleMaxChange}
-            className="absolute top-0 right-0 w-full h-2 bg-transparent appearance-none cursor-pointer hp-slider hp-slider-max"
+            step={1}
+            value={hpRange}
+            onValueChange={handleSliderChange}
+            className="w-full hp-slider hp-slider-range cursor-pointer"
           />
         </div>
       </div>
 
-      {/* Min/Max labels */}
-      <div className="flex justify-between text-xs text-gray-500 mb-2 px-2">
-        <span>{minHP}</span>
-        <span>{maxHP}</span>
-      </div>
-
-      {/* Current values */}
       <div className="flex justify-between text-xs px-2">
-        <span className="text-blue-600 font-medium">Min: {hpRange[0]}</span>
-        <span className="text-blue-600 font-medium">Max: {hpRange[1]}</span>
+        <span className="text-black-600 font-medium">Min: {hpRange[0]}</span>
+        <span className="text-black-600 font-medium">Max: {hpRange[1]}</span>
       </div>
     </div>
   );

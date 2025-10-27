@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getCardById } from "../services/cards";
+import { getCardById } from "@/services/cards";
 import { useQuery } from "@tanstack/react-query";
 import BackButton from "@/components/BackButton";
 import { Spinner } from "@/components/ui/spinner";

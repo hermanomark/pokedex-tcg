@@ -1,6 +1,5 @@
 import { Fish, Bird, Origami } from "lucide-react"
 import { Link } from "react-router-dom";
-
 import {
   Sidebar,
   SidebarContent,
@@ -13,7 +12,7 @@ import {
 } from "@/components/ui/sidebar"
 
 // Menu items.
-const items = [
+const items: Array<{ title: string; url: string; icon: React.ElementType }> = [
   {
     title: "Home",
     url: "/",
@@ -29,7 +28,7 @@ const items = [
     url: "/series",
     icon: Origami,
   }
-]
+];
 
 const AppSidebar = () => {
   return (
