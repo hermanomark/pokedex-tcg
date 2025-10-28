@@ -17,6 +17,9 @@ const Home = () => {
   const [searchTerm, setSearchTerm] = useState<string>(searchParams.get('search') || '');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>(searchTerm);
   const [selectedCategory, setSelectedCategory] = useState<string>(searchParams.get('category') || '');
+  const [selectedTypes, setSelectedTypes] = useState<string[]>(
+    searchParams.get('types') ? searchParams.get('types')!.split('|') : []
+  );
   const [selectedRarities, setSelectedRarities] = useState<string[]>(
     searchParams.get('rarity') ? searchParams.get('rarity')!.split('|') : []
   );
@@ -43,6 +46,7 @@ const Home = () => {
     const params = new URLSearchParams();
     if (debouncedSearchTerm) params.set('search', debouncedSearchTerm);
     if (selectedCategory) params.set('category', selectedCategory);
+    if (selectedTypes.length > 0) params.set('types', selectedTypes.join('|'));
     if (selectedRarities.length > 0) params.set('rarity', selectedRarities.join('|'));
     if (debouncedHpRange[0] !== 0 || debouncedHpRange[1] !== 380) {
       params.set('hp', `${debouncedHpRange[0]}-${debouncedHpRange[1]}`);
@@ -50,7 +54,7 @@ const Home = () => {
     if (sortBy) params.set('sort', sortBy);
 
     setSearchParams(params);
-  }, [debouncedSearchTerm, selectedCategory, selectedRarities, debouncedHpRange, sortBy, setSearchParams]);
+  }, [debouncedSearchTerm, selectedCategory, selectedTypes, selectedRarities, debouncedHpRange, sortBy, setSearchParams]);
 
   const {
     data,
@@ -65,6 +69,7 @@ const Home = () => {
       'cards',
       debouncedSearchTerm,
       selectedCategory,
+      selectedTypes,
       selectedRarities,
       debouncedHpRange,
       sortBy],
@@ -74,6 +79,7 @@ const Home = () => {
         10,
         debouncedSearchTerm,
         selectedCategory,
+        selectedTypes,
         selectedRarities,
         debouncedHpRange,
         sortBy),
@@ -100,6 +106,10 @@ const Home = () => {
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
   }
+
+  const handleTypesChange = (types: string[]) => {
+    setSelectedTypes(types);
+  };
 
   const handleRaritiesChange = (rarities: string[]) => {
     setSelectedRarities(rarities);
@@ -142,6 +152,8 @@ const Home = () => {
         <SidebarFilter
           selectedCategory={selectedCategory}
           onCategoryChange={handleCategoryChange}
+          selectedTypes={selectedTypes}
+          onTypesChange={handleTypesChange}
           selectedRarities={selectedRarities}
           onRaritiesChange={handleRaritiesChange}
           hpRange={hpRange}

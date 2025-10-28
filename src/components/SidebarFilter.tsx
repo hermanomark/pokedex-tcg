@@ -5,15 +5,18 @@ import FadeUp from './FadeUp';
 import CategoriesFilter from './CategoriesFilter';
 import { Funnel, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import TypesFilter from './TypesFilter';
 
 const SidebarFilter = ({
   selectedCategory,
   onCategoryChange,
+  selectedTypes,
+  onTypesChange,
   selectedRarities,
   onRaritiesChange,
   hpRange,
   onHPChange
-}: { selectedCategory: string; onCategoryChange: (category: string) => void; selectedRarities: string[]; onRaritiesChange: (rarities: string[]) => void; hpRange: [number, number]; onHPChange: (range: [number, number]) => void; }) => {
+}: { selectedCategory: string; onCategoryChange: (category: string) => void; selectedTypes: string[]; onTypesChange: (types: string[]) => void; selectedRarities: string[]; onRaritiesChange: (rarities: string[]) => void; hpRange: [number, number]; onHPChange: (range: [number, number]) => void; }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -70,6 +73,13 @@ const SidebarFilter = ({
               <CategoriesFilter
                 selectedCategory={selectedCategory}
                 onCategoryChange={onCategoryChange}
+              />
+            </div>
+
+            <div>
+              <TypesFilter
+                selectedTypes={selectedTypes}
+                onTypesChange={onTypesChange}
               />
             </div>
 

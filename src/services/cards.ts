@@ -6,7 +6,8 @@ export const getAllCards = async (
   itemsPerPage: number = 10, 
   searchName: string = '', 
   category: string = '', 
-  rarity: string[] = [], 
+  types: string[] = [], 
+  rarities: string[] = [], 
   hpRange: [number, number] = [0, 500], 
   sortBy: string = ''
 ) => {
@@ -21,8 +22,12 @@ export const getAllCards = async (
       url += `&category=eq:${encodeURIComponent(category)}`;
     }
 
-    if (rarity.length > 0) {
-      url += `&rarity=${encodeURIComponent(rarity.join('|'))}`;
+    if (types.length > 0) {
+      url += `&types=${encodeURIComponent(types.join('|'))}`;
+    }
+
+    if (rarities.length > 0) {
+      url += `&rarity=${encodeURIComponent(rarities.join('|'))}`;
     }
 
     if (hpRange && (hpRange[0] !== 0 || hpRange[1] !== 380)) {

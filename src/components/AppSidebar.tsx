@@ -11,7 +11,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-// Menu items.
 const items: Array<{ title: string; url: string; icon: React.ElementType }> = [
   {
     title: "Home",
