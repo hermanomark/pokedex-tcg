@@ -17,7 +17,7 @@ export const getAllCards = async (
       url += `&name=${encodeURIComponent(searchName)}`;
     }
 
-    if (category) {
+    if (category && category !== 'all') {
       url += `&category=eq:${encodeURIComponent(category)}`;
     }
 

@@ -1,17 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
-import FadeUp from './FadeUp';
-import { getRarities } from '../services/others';
+import FadeUp from '@/components/FadeUp';
+import { getRarities } from '@/services/others';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 
 const RaritiesFilter = ({ selectedRarities, onRaritiesChange }: { selectedRarities: string[]; onRaritiesChange: (rarities: string[]) => void; }) => {
   const {
     data: rarities = [],
     isLoading,
     error
-  } = useQuery({
+  } = useQuery<string[]>({
     queryKey: ['rarities'],
     queryFn: getRarities,
     staleTime: 5 * 60 * 1000,
-    cacheTime: 20 * 60 * 1000,
+    gcTime: 20 * 60 * 1000,
   });
 
   const handleRarityToggle = (rarity: string) => {
@@ -35,7 +38,7 @@ const RaritiesFilter = ({ selectedRarities, onRaritiesChange }: { selectedRariti
     return (
       <FadeUp>
         <div className="mb-6">
-          <h3 className="text-sm font-medium text-gray-700 mb-3">Rarities</h3>
+          <h3 className="text-sm font-medium text-secondary-foreground mb-3">Rarities</h3>
           <div className="space-y-2">
             {[1, 2, 3].map((i) => (
               <div key={i} className="flex items-center">
@@ -53,7 +56,7 @@ const RaritiesFilter = ({ selectedRarities, onRaritiesChange }: { selectedRariti
     return (
       <FadeUp>
         <div className="mb-6">
-          <h3 className="text-sm font-medium text-gray-700 mb-3">Rarities</h3>
+          <h3 className="text-sm font-medium text-secondary-foreground mb-3">Rarities</h3>
           <p className="text-red-500 text-sm">Error loading rarities</p>
         </div>
       </FadeUp>
@@ -64,29 +67,34 @@ const RaritiesFilter = ({ selectedRarities, onRaritiesChange }: { selectedRariti
     <FadeUp>
       <div className="mb-6">
         <div className="flex justify-between items-center mb-3">
-          <h3 className="text-sm font-medium text-gray-700">Rarities</h3>
-          <button
+          <h3 className="text-sm font-medium text-secondary-foreground mb-3">Rarities</h3>
+          <Button
             onClick={handleSelectAll}
-            className="text-xs text-blue-600 hover:text-blue-800 focus:outline-none"
+            className="cursor-pointer text-xs text-secondary-foreground"
+            variant='ghost'
           >
             {selectedRarities.length === rarities.length ? 'Clear All' : 'Select All'}
-          </button>
+          </Button>
         </div>
         <div className="space-y-2 max-h-48 overflow-y-auto">
           {rarities.map((rarity) => (
-            <label key={rarity} className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded">
-              <input
-                type="checkbox"
+            <div key={rarity} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
+              <Checkbox
+                id={`rarity-${rarity}`}
                 checked={selectedRarities.includes(rarity)}
-                onChange={() => handleRarityToggle(rarity)}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                onCheckedChange={() => handleRarityToggle(rarity)}
               />
-              <span className="ml-2 text-sm text-gray-700">{rarity}</span>
-            </label>
+              <Label
+                htmlFor={`rarity-${rarity}`}
+                className="cursor-pointer text-sm font-normal"
+              >
+                {rarity}
+              </Label>
+            </div>
           ))}
         </div>
         {selectedRarities.length > 0 && (
-          <div className="mt-2 text-xs text-gray-500">
+          <div className="mt-2 text-xs text-primary">
             {selectedRarities.length} of {rarities.length} selected
           </div>
         )}

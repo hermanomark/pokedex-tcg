@@ -1,5 +1,6 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import AppSidebar from "@/components/AppSidebar"
+import ModeToggle from "@/components/ModeToggle";
 
 const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -7,6 +8,7 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
       <AppSidebar />
       <main className="container min-h-screen">
         <SidebarTrigger className="cursor-pointer" />
+        <ModeToggle />
         <div className="container mx-auto px-4 py-4">
           {children}
         </div>

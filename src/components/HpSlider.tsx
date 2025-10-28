@@ -24,7 +24,7 @@ const HpSlider = ({
 
   return (
     <div className="w-full">
-      <label className="block text-sm font-medium text-gray-700 mb-3">
+      <label className="block text-sm font-medium text-secondary-foreground mb-3">
         HP Range: {hpRange[0]} - {hpRange[1]}
       </label>
 

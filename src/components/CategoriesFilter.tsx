@@ -1,6 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import FadeUp from './FadeUp';
 import { getCategories } from '../services/others';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const CategoriesFilter = ({ selectedCategory, onCategoryChange }: { selectedCategory: string; onCategoryChange: (category: string) => void; }) => {
   const {
@@ -36,24 +45,30 @@ const CategoriesFilter = ({ selectedCategory, onCategoryChange }: { selectedCate
 
   return (
     <FadeUp>
-      <div className="mb-6">
-        <select
-          id="category-filter"
+      <div className="relative mb-6">
+        <Select
           value={selectedCategory}
-          onChange={(e) => onCategoryChange(e.target.value)}
-          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          onValueChange={onCategoryChange}
         >
-          <option key={'All Card Types'} value="">
-            All Card Types
-          </option>
-          {Array.isArray(categories) && categories.map((category: string) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger className="w-full cursor-pointer">
+            <SelectValue placeholder="Select a Card Type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Card Types</SelectLabel>
+              <SelectItem value="all">
+                All Cards
+              </SelectItem>
+              {Array.isArray(categories) && categories.map((category: string) => (
+                <SelectItem key={category} value={category}>
+                  {category}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
-    </FadeUp>
+    </FadeUp >
   );
 };
 
