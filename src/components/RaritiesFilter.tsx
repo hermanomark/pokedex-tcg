@@ -70,7 +70,7 @@ const RaritiesFilter = ({ selectedRarities, onRaritiesChange }: { selectedRariti
           <h3 className="text-sm font-medium text-secondary-foreground mb-3">Rarities</h3>
           <Button
             onClick={handleSelectAll}
-            className="cursor-pointer text-xs text-secondary-foreground"
+            className="cursor-pointer text-xs"
             variant='ghost'
           >
             {selectedRarities.length === rarities.length ? 'Clear All' : 'Select All'}
@@ -78,7 +78,7 @@ const RaritiesFilter = ({ selectedRarities, onRaritiesChange }: { selectedRariti
         </div>
         <div className="space-y-2 max-h-48 overflow-y-auto">
           {rarities.map((rarity) => (
-            <div key={rarity} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
+            <div key={rarity} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 hover:dark:bg-gray-800 p-1 rounded">
               <Checkbox
                 id={`rarity-${rarity}`}
                 checked={selectedRarities.includes(rarity)}
@@ -86,7 +86,7 @@ const RaritiesFilter = ({ selectedRarities, onRaritiesChange }: { selectedRariti
               />
               <Label
                 htmlFor={`rarity-${rarity}`}
-                className="cursor-pointer text-sm font-normal"
+                className="cursor-pointer text-sm font-normal text-primary"
               >
                 {rarity}
               </Label>

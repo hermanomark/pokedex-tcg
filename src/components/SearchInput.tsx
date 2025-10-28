@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import FadeUp from './FadeUp';
-import { Search, X } from 'lucide-react';
+import { SearchIcon, X } from 'lucide-react';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group"
 
 const SearchInput = ({ onSearch, placeholder = "Search Pokemon cards...", value = '' }: { onSearch: (value: string) => void; placeholder?: string; value?: string; }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -24,24 +30,19 @@ const SearchInput = ({ onSearch, placeholder = "Search Pokemon cards...", value 
     <FadeUp>
       <div className="relative w-full max-w-md">
         <div className="relative">
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={handleInputChange}
-            placeholder={placeholder}
-            className="w-full px-4 py-2 pl-10 pr-10 text-gray-700 bg-white border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm"
-          />
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-            <Search size={16} className="text-gray-400" />
-          </div>
-          {searchTerm && (
-            <button
-              onClick={clearSearch}
-              className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
-            >
-              <X size={16} />
-            </button>
-          )}
+          <InputGroup>
+            <InputGroupInput
+              value={searchTerm}
+              onChange={handleInputChange}
+              placeholder={placeholder} />
+            <InputGroupAddon>
+              <SearchIcon />
+            </InputGroupAddon>
+            {searchTerm && (
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton className='cursor-pointer' onClick={clearSearch}><X size={16} /></InputGroupButton>
+              </InputGroupAddon>)}
+          </InputGroup>
         </div>
       </div>
     </FadeUp>

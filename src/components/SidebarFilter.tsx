@@ -3,7 +3,7 @@ import RaritiesFilter from './RaritiesFilter';
 import HpSlider from './HpSlider';
 import FadeUp from './FadeUp';
 import CategoriesFilter from './CategoriesFilter';
-import { Funnel } from 'lucide-react';
+import { Funnel, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const SidebarFilter = ({
@@ -60,9 +60,7 @@ const SidebarFilter = ({
               className="cursor-pointer"
               variant='ghost'
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+             <X />
             </Button>
           </div>
 
