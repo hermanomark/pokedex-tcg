@@ -55,7 +55,9 @@ const CardDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: pokemonData, error, isError, isLoading } = useQuery<CardData, Error>({
+  const { data: pokemonData, 
+    isLoading,
+    error: errorCardDetail, isError: isErrorCardDetail } = useQuery<CardData, Error>({
     queryKey: ['card', id],
     queryFn: () => {
       if (!id) throw new Error('Card ID is required');
@@ -66,28 +68,28 @@ const CardDetail = () => {
   });
 
   useEffect(() => {
-    if (isError) {
+    if (isErrorCardDetail) {
       const timer = setTimeout(() => {
         navigate('/cards');
       }, 3000);
 
       return () => clearTimeout(timer);
     }
-  }, [isError, navigate]);
+  }, [isErrorCardDetail, navigate]);
 
   const getTypeColor = (type: string) => {
     const colors: Record<string, string> = {
-      Grass: 'bg-green-500',
-      Fire: 'bg-red-500',
-      Water: 'bg-blue-500',
-      Electric: 'bg-yellow-500',
-      Psychic: 'bg-purple-500',
-      Fighting: 'bg-orange-700',
-      Darkness: 'bg-gray-800',
-      Metal: 'bg-gray-500',
-      Colorless: 'bg-gray-400',
+      Grass: 'bg-green-500 dark:bg-green-600',
+      Fire: 'bg-red-500 dark:bg-red-600',
+      Water: 'bg-blue-500 dark:bg-blue-600',
+      Electric: 'bg-yellow-500 dark:bg-yellow-600',
+      Psychic: 'bg-purple-500 dark:bg-purple-600',
+      Fighting: 'bg-orange-700 dark:bg-orange-800',
+      Darkness: 'bg-gray-800 dark:bg-gray-900',
+      Metal: 'bg-gray-500 dark:bg-gray-600',
+      Colorless: 'bg-gray-400 dark:bg-gray-500',
     };
-    return colors[type] || 'bg-gray-400';
+    return colors[type] || 'bg-gray-400 dark:bg-gray-500';
   };
 
   const formatPrice = (price: number | undefined, unit: string) => {
@@ -106,164 +108,236 @@ const CardDetail = () => {
     });
   };
 
-  if (isLoading) return <Spinner />;
-
-  if (isError) return <p className="text-red-700">Error: {error.message}, redirecting in 3, 2, 1...</p>;
-
-  if (!pokemonData) return <p>No data found</p>;
-
-  return (<>
-    <BackButton />
-    <div className="max-w-sm mx-auto bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
-        <div className="flex justify-between items-center">
-          <h2 className="text-xl font-bold">{pokemonData.name}</h2>
-          <span className="text-sm opacity-80">#{pokemonData.localId}</span>
-        </div>
-        <div className="flex justify-between items-center mt-1">
-          <span className="text-sm">HP {pokemonData.hp}</span>
-          <span className="text-sm">{pokemonData.stage}</span>
-        </div>
-      </div>
-
-      {/* Card Image */}
-      <div className="p-4 bg-gray-50">
-        <img
-          src={`${pokemonData.image}/high.png`}
-          alt={pokemonData.name}
-          className="w-full h-auto object-contain rounded-lg"
-        />
-      </div>
-
-      {/* Card Details */}
-      <div className="p-4 space-y-3">
-        {/* Types */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-gray-600">Type:</span>
-          <div className="flex gap-1">
-            {pokemonData.types?.map((type, index) => (
-              <span
-                key={index}
-                className={`px-2 py-1 rounded-full text-white text-xs font-medium ${getTypeColor(type)}`}
-              >
-                {type}
-              </span>
-            ))}
+  return (
+    <div className="container mx-auto px-4 py-6 max-w-7xl">
+      <BackButton />
+      
+      {isErrorCardDetail ? (
+        <div className="flex justify-center py-8">
+          <div className="text-md flex items-center gap-2">
+            <p className="text-destructive">
+              Error: {errorCardDetail.message}, redirecting in 3, 2, 1...
+            </p>
           </div>
         </div>
-
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-600">
-            <span className="font-medium">Illustrator:</span> {pokemonData.illustrator}
-          </span>
-          <span className="text-gray-600">
-            <span className="font-medium">Variant:</span> {pokemonData.variants.firstEdition}
-          </span>
+      ) : isLoading ? (
+        <div className="flex justify-center py-8">
+          <div className="text-sm text-muted-foreground flex items-center gap-2">
+            <Spinner />
+            Loading...
+          </div>
         </div>
-
-        {/* Rarity and Set */}
-        <div className="flex justify-between text-sm">
-          <span className="text-gray-600">
-            <span className="font-medium">Rarity:</span> {pokemonData.rarity}
-          </span>
-          <span className="text-gray-600">
-            <span className="font-medium">Set:</span> {pokemonData.set.name}
-          </span>
+      ) : !pokemonData ? (
+        <div className="flex justify-center py-8">
+          <div className="text-sm text-muted-foreground flex items-center gap-2">
+            <Spinner />
+            Loading...
+          </div>
         </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
+          {/* Left Column - Image and General Info */}
+          <div className="space-y-6">
+            {/* Header Card */}
+            <div className="bg-card rounded-xl shadow-lg border border-border overflow-hidden">
+              <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
+                <div className="flex justify-between items-center">
+                  <h1 className="text-2xl font-bold">{pokemonData.name}</h1>
+                  <span className="text-sm opacity-90">#{pokemonData.localId}</span>
+                </div>
+                <div className="flex justify-between items-center mt-2">
+                  <span className="text-sm">HP {pokemonData.hp}</span>
+                  <span className="text-sm">{pokemonData.stage}</span>
+                </div>
+              </div>
+            </div>
 
-        {/* Attacks */}
-        {pokemonData.attacks && pokemonData.attacks.length > 0 && (
-          <>
-            <span className="text-sm font-medium text-gray-600">Attacks:</span>
-            <div className="mt-1 space-y-1">
-              {pokemonData.attacks.map((attack, index) => (
-                <div key={index} className="bg-gray-50 rounded p-2">
-                  <div className="flex justify-between items-center">
-                    <span className="font-medium text-sm">{attack.name}</span>
-                    <span className="text-sm text-red-600 font-bold">{attack.damage}</span>
-                  </div>
-                  <div className="flex gap-1 mt-1">
-                    {attack.cost.map((cost, costIndex) => (
-                      <span
-                        key={costIndex}
-                        className={`px-1 py-0.5 rounded text-xs text-white ${getTypeColor(cost)}`}
-                      >
-                        {cost}
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-left text-sm text-gray-600 mt-2">
-                    {attack.effect}
+            {/* Card Image */}
+            <div className="bg-card rounded-xl shadow-lg border border-border p-6">
+              <img
+                src={`${pokemonData.image}/high.png`}
+                alt={pokemonData.name}
+                className="w-full h-auto object-contain rounded-lg max-w-md mx-auto"
+              />
+            </div>
+
+            {/* Basic Info */}
+            <div className="bg-card rounded-xl shadow-lg border border-border p-6 space-y-4">
+              <h2 className="text-lg font-semibold text-foreground border-b border-border pb-2">
+                General Information
+              </h2>
+              
+              {/* Types */}
+              <div className="space-y-2">
+                <span className="text-sm font-medium text-muted-foreground">Types:</span>
+                <div className="flex gap-2 flex-wrap">
+                  {pokemonData.types?.map((type, index) => (
+                    <span
+                      key={index}
+                      className={`px-3 py-1 rounded-full text-white text-sm font-medium ${getTypeColor(type)}`}
+                    >
+                      {type}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Basic Details Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <span className="text-sm font-medium text-muted-foreground">Illustrator:</span>
+                  <p className="text-sm text-foreground">{pokemonData.illustrator}</p>
+                </div>
+                <div>
+                  <span className="text-sm font-medium text-muted-foreground">First Edition:</span>
+                  <p className="text-sm text-foreground">
+                    {pokemonData.variants.firstEdition ? 'Yes' : 'No'}
                   </p>
                 </div>
-              ))}
-            </div>
-          </>
-        )}
-
-        {/* Legal Formats */}
-        {(pokemonData.legal.standard || pokemonData.legal.expanded) && (
-          <div className="flex gap-2">
-            <span className="text-sm font-medium text-gray-600">Legal in:</span>
-            <div className="flex gap-2">
-              {pokemonData.legal.standard && (
-                <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs font-medium">
-                  Standard
-                </span>
-              )}
-              {pokemonData.legal.expanded && (
-                <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-medium">
-                  Expanded
-                </span>
-              )}
-            </div>
-          </div>)}
-
-        {/* Pricing */}
-        {pokemonData.pricing?.tcgplayer && (
-          <div className="border-t pt-3 border-gray-200">
-            <span className="text-sm font-medium text-gray-600">TCGPlayer Pricing:</span>
-            <div className="grid grid-cols-2 gap-2 mt-1 text-xs">
-
-              {pokemonData.pricing.tcgplayer?.holofoil && (
-                <div className="bg-gray-50 rounded p-2">
-                  <div className="font-medium">Holo</div>
-                  <div>Market: {formatPrice(pokemonData.pricing.tcgplayer?.holofoil?.marketPrice, pokemonData.pricing.tcgplayer?.unit)}</div>
-                  <div className="text-gray-600">
-                    Low: {formatPrice(pokemonData.pricing.tcgplayer?.holofoil?.lowPrice, pokemonData.pricing.tcgplayer?.unit)}
-                  </div>
+                <div>
+                  <span className="text-sm font-medium text-muted-foreground">Rarity:</span>
+                  <p className="text-sm text-foreground">{pokemonData.rarity}</p>
                 </div>
-              )}
-
-              {pokemonData.pricing.tcgplayer?.normal && (
-                <div className="bg-gray-50 rounded p-2">
-                  <div className="font-medium">Normal</div>
-                  <div>Market: {formatPrice(pokemonData.pricing.tcgplayer?.normal?.marketPrice, pokemonData.pricing.tcgplayer?.unit)}</div>
-                  <div className="text-gray-600">
-                    Low: {formatPrice(pokemonData.pricing.tcgplayer?.normal?.lowPrice, pokemonData.pricing.tcgplayer?.unit)}
-                  </div>
+                <div>
+                  <span className="text-sm font-medium text-muted-foreground">Set:</span>
+                  <p className="text-sm text-foreground">{pokemonData.set.name}</p>
                 </div>
-              )}
-
-              {pokemonData.pricing.tcgplayer["reverse-holofoil"] && (
-                <div className="bg-gray-50 rounded p-2">
-                  <div className="font-medium">Reverse Holo</div>
-                  <div>Market: {formatPrice(pokemonData.pricing.tcgplayer["reverse-holofoil"]?.marketPrice, pokemonData.pricing.tcgplayer?.unit)}</div>
-                  <div className="text-gray-600">
-                    Low: {formatPrice(pokemonData.pricing.tcgplayer["reverse-holofoil"]?.lowPrice, pokemonData.pricing.tcgplayer?.unit)}
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className="text-left w-full">
-              <span className="text-xs text-gray-600">Last price updated: {formatDate(pokemonData.pricing.tcgplayer?.updated)}</span>
+              </div>
             </div>
           </div>
-        )}
-      </div>
+
+          {/* Right Column - Detailed Information */}
+          <div className="space-y-6">
+            {/* Attacks */}
+            {pokemonData.attacks && pokemonData.attacks.length > 0 && (
+              <div className="bg-card rounded-xl shadow-lg border border-border p-6">
+                <h2 className="text-lg font-semibold text-foreground border-b border-border pb-2 mb-4">
+                  Attacks
+                </h2>
+                <div className="space-y-4">
+                  {pokemonData.attacks.map((attack, index) => (
+                    <div key={index} className="bg-muted/50 border border-border rounded-lg p-4">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-medium text-foreground">{attack.name}</span>
+                        <span className="text-red-600 dark:text-red-400 font-bold">{attack.damage}</span>
+                      </div>
+                      <div className="flex gap-1 mb-3">
+                        {attack.cost.map((cost, costIndex) => (
+                          <span
+                            key={costIndex}
+                            className={`px-2 py-1 rounded text-xs text-white ${getTypeColor(cost)}`}
+                          >
+                            {cost}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        {attack.effect}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Legal Formats */}
+            {(pokemonData.legal.standard || pokemonData.legal.expanded) && (
+              <div className="bg-card rounded-xl shadow-lg border border-border p-6">
+                <h2 className="text-lg font-semibold text-foreground border-b border-border pb-2 mb-4">
+                  Legal Formats
+                </h2>
+                <div className="flex gap-3">
+                  {pokemonData.legal.standard && (
+                    <span className="px-3 py-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-lg text-sm font-medium">
+                      Standard
+                    </span>
+                  )}
+                  {pokemonData.legal.expanded && (
+                    <span className="px-3 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-lg text-sm font-medium">
+                      Expanded
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Pricing */}
+            {pokemonData.pricing?.tcgplayer && (
+              <div className="bg-card rounded-xl shadow-lg border border-border p-6">
+                <h2 className="text-lg font-semibold text-foreground border-b border-border pb-2 mb-4">
+                  TCGPlayer Pricing
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                  {pokemonData.pricing.tcgplayer?.holofoil && (
+                    <div className="bg-muted/50 rounded-lg p-4 border border-border">
+                      <div className="font-medium text-foreground mb-2">Holofoil</div>
+                      <div className="space-y-1">
+                        <div className="text-sm">
+                          <span className="text-muted-foreground">Market:</span>{' '}
+                          <span className="font-medium text-foreground">
+                            {formatPrice(pokemonData.pricing.tcgplayer?.holofoil?.marketPrice, pokemonData.pricing.tcgplayer?.unit)}
+                          </span>
+                        </div>
+                        <div className="text-sm">
+                          <span className="text-muted-foreground">Low:</span>{' '}
+                          <span className="text-foreground">
+                            {formatPrice(pokemonData.pricing.tcgplayer?.holofoil?.lowPrice, pokemonData.pricing.tcgplayer?.unit)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {pokemonData.pricing.tcgplayer?.normal && (
+                    <div className="bg-muted/50 rounded-lg p-4 border border-border">
+                      <div className="font-medium text-foreground mb-2">Normal</div>
+                      <div className="space-y-1">
+                        <div className="text-sm">
+                          <span className="text-muted-foreground">Market:</span>{' '}
+                          <span className="font-medium text-foreground">
+                            {formatPrice(pokemonData.pricing.tcgplayer?.normal?.marketPrice, pokemonData.pricing.tcgplayer?.unit)}
+                          </span>
+                        </div>
+                        <div className="text-sm">
+                          <span className="text-muted-foreground">Low:</span>{' '}
+                          <span className="text-foreground">
+                            {formatPrice(pokemonData.pricing.tcgplayer?.normal?.lowPrice, pokemonData.pricing.tcgplayer?.unit)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {pokemonData.pricing.tcgplayer["reverse-holofoil"] && (
+                    <div className="bg-muted/50 rounded-lg p-4 border border-border">
+                      <div className="font-medium text-foreground mb-2">Reverse Holofoil</div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="text-sm">
+                          <span className="text-muted-foreground">Market:</span>{' '}
+                          <span className="font-medium text-foreground">
+                            {formatPrice(pokemonData.pricing.tcgplayer["reverse-holofoil"]?.marketPrice, pokemonData.pricing.tcgplayer?.unit)}
+                          </span>
+                        </div>
+                        <div className="text-sm">
+                          <span className="text-muted-foreground">Low:</span>{' '}
+                          <span className="text-foreground">
+                            {formatPrice(pokemonData.pricing.tcgplayer["reverse-holofoil"]?.lowPrice, pokemonData.pricing.tcgplayer?.unit)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  Last updated: {formatDate(pokemonData.pricing.tcgplayer?.updated)}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
-  </>);
-}
+  );
+};
 
 export default CardDetail;

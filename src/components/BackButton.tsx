@@ -1,5 +1,6 @@
 import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button"
+import FadeUp from "@/components/FadeUp";
 
 const BackButton = ({ onClick, className = "", children = "Back" }: { onClick?: () => void; className?: string; children?: React.ReactNode; }) => {
   const handleBack = () => {
@@ -11,16 +12,17 @@ const BackButton = ({ onClick, className = "", children = "Back" }: { onClick?: 
   };
 
   return (
-    <div className="w-full h-auto flex justify-start">
-      <Button
-        onClick={handleBack}
-        className={`cursor-pointer ${className}`}
-      >
-        <ChevronLeft />
-        {children}
-      </Button>
-    </div>
-
+    <FadeUp>
+      <div className="w-full h-auto flex justify-start">
+        <Button
+          onClick={handleBack}
+          className={`cursor-pointer ${className}`}
+        >
+          <ChevronLeft />
+          {children}
+        </Button>
+      </div>
+    </FadeUp >
   );
 };
 

@@ -51,18 +51,29 @@ const Series = () => {
     return () => observer.disconnect();
   }, [hasNextPage, fetchNextPage]);
 
-  if (isLoading) return <Spinner />;
   if (isError) return <p>Error: {error.message}</p>;
-
+  
   return (
     <>
       <Header header="Series" />
-        <GridLayout >
-          {series.map((item) => (
-            <Card key={item.id} card={item} type='series' />
-          ))}
-        </GridLayout>
-        <LoadMore loadMoreRef={loadMoreRef} isFetchingNextPage={isFetchingNextPage} hasNextPage={hasNextPage} />
+      <>
+        {isLoading && series.length === 0 ? (
+          <div className="flex justify-center py-8">
+            <div className="text-sm text-gray-500 flex items-center gap-2">
+              <Spinner />
+              Loading series...
+            </div>
+          </div>
+        ) : (
+          <>
+            <GridLayout >
+              {series.map((item) => (
+                <Card key={item.id} card={item} type='series' />
+              ))}
+            </GridLayout>
+            <LoadMore loadMoreRef={loadMoreRef} isFetchingNextPage={isFetchingNextPage} hasNextPage={hasNextPage} /></>
+        )}
+      </>
     </>
   );
 }
