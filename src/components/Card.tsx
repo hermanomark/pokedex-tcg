@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import FadeUp from './FadeUp';
 
-const Card = ({ card: { id, name, image, logo }, type }: { card: { id: string; name: string; image: string; logo: string }; type: string }) => {
+const Card = ({ card: { id, name, image, logo }, type }: { card: { id: string; name: string; image: string; logo: string; }; type: string }) => {
   const navigate = useNavigate();
 
   if (type === 'cards') return (

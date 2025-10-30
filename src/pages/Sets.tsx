@@ -8,10 +8,22 @@ import { getAllSets } from "../services/sets";
 import { Spinner } from "@/components/ui/spinner";
 import SearchInput from '../components/SearchInput';
 import { useDebounce } from 'react-use';
+import { useSearchParams } from 'react-router-dom';
+import SortButton from '@/components/SortButton';
 
 const Sets = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState<string>(searchParams.get('search') || '');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>(searchTerm);
+  const [sortBy, setSortBy] = useState(searchParams.get('sort') || '');
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (debouncedSearchTerm) params.set('search', debouncedSearchTerm);
+    if (sortBy) params.set('sort', sortBy);
+
+    setSearchParams(params);
+  }, [debouncedSearchTerm, sortBy, setSearchParams]);
 
   useDebounce(() => {
     setDebouncedSearchTerm(searchTerm);
@@ -26,8 +38,8 @@ const Sets = () => {
     isLoading,
     isError
   } = useInfiniteQuery({
-    queryKey: ['sets', debouncedSearchTerm],
-    queryFn: ({ pageParam = 1 }) => getAllSets(pageParam as number, 10, debouncedSearchTerm),
+    queryKey: ['sets', debouncedSearchTerm, sortBy],
+    queryFn: ({ pageParam = 1 }) => getAllSets(pageParam as number, 10, debouncedSearchTerm, sortBy),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       if (!lastPage || (Array.isArray(lastPage) && (lastPage.length === 0 || lastPage.length < 10))) {
@@ -64,13 +76,20 @@ const Sets = () => {
     return () => observer.disconnect();
   }, [hasNextPage, fetchNextPage]);
 
+  const handleSortChange = (sort: string) => {
+    setSortBy(sort);
+  }
+
   if (isError) return <p>Error: {error.message}</p>;
 
   return (
     <>
       <Header header="Sets" />
-      <div className="mb-12">
-        <SearchInput onSearch={handleSearch} placeholder='Search for sets...' />
+      <div className='flex gap-3 mb-6 w-full'>
+        <div className="flex-1">
+          <SearchInput onSearch={handleSearch} value={searchTerm} placeholder='Search for sets...' />
+        </div>
+        <SortButton onSortChange={handleSortChange} currentSort={sortBy} type="sets" />
       </div>
       {sets.length === 0 && debouncedSearchTerm && !isLoading ? (
         <div className="text-center py-8">

@@ -148,7 +148,7 @@ const Home = () => {
         <div className="flex-1">
           <SearchInput onSearch={handleSearch} value={searchTerm} />
         </div>
-        <SortButton onSortChange={handleSortChange} currentSort={sortBy} />
+        <SortButton onSortChange={handleSortChange} currentSort={sortBy} type="cards" />
         <SidebarFilter
           selectedCategory={selectedCategory}
           onCategoryChange={handleCategoryChange}

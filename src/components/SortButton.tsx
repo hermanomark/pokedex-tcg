@@ -8,16 +8,28 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-const SortButton = ({ onSortChange, currentSort }: { onSortChange: (sort: string) => void; currentSort: string; }) => {
+const SortButton = ({ onSortChange, currentSort, type }: { onSortChange: (sort: string) => void; currentSort: string; type: string; }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const sortOptions = [
+  let sortOptions = [
     { value: '', label: 'Default' },
     { value: 'name:ASC', label: 'Name A-Z' },
     { value: 'name:DESC', label: 'Name Z-A' },
-    { value: 'hp:DESC', label: 'HP Low to High' },
-    { value: 'hp:ASC', label: 'HP High to Low' },
   ];
+
+  if (type === 'cards') {
+    sortOptions = sortOptions.concat([
+      { value: 'hp:DESC', label: 'HP Low to High' },
+      { value: 'hp:ASC', label: 'HP High to Low' },
+    ]);
+  }
+
+  if (type === 'sets') {
+    sortOptions = sortOptions.concat([
+      { value: 'releaseDate:DESC', label: 'Release Date New to Old' },
+      { value: 'releaseDate:ASC', label: 'Release Date Old to New' },
+    ]);
+  }
 
   const handleSortSelect = (sortValue: string) => {
     onSortChange(sortValue);

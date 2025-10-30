@@ -1,13 +1,25 @@
 import api from './client';
 import { getErrorMessage } from '@/utils/errorHandler';
 
-export const getAllSets = async (page = 1, itemsPerPage = 10, searchName?: string) => {
+export const getAllSets = async (
+  page: number = 1,
+  itemsPerPage: number = 10,
+  searchName?: string,
+  sortBy?: string) => {
   try {
     let url = `/sets?pagination:page=${page}&pagination:itemsPerPage=${itemsPerPage}`;
 
     if (searchName) {
       url += `&name=${encodeURIComponent(searchName)}`;
     }
+
+    if (sortBy) {
+      const sortByArr = sortBy.split(':');
+      url += `&sort:field=${encodeURIComponent(sortByArr[0])}`;
+      url += `&sort:order=${encodeURIComponent(sortByArr[1])}`;
+    }
+
+    console.log(url);
 
     const response = await api.get(url);
 
