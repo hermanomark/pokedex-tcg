@@ -55,17 +55,17 @@ const CardDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: pokemonData, 
+  const { data: pokemonData,
     isLoading,
     error: errorCardDetail, isError: isErrorCardDetail } = useQuery<CardData, Error>({
-    queryKey: ['card', id],
-    queryFn: () => {
-      if (!id) throw new Error('Card ID is required');
-      return getCardById(id);
-    },
-    enabled: !!id,
-    retry: false
-  });
+      queryKey: ['card', id],
+      queryFn: () => {
+        if (!id) throw new Error('Card ID is required');
+        return getCardById(id);
+      },
+      enabled: !!id,
+      retry: false
+    });
 
   useEffect(() => {
     if (isErrorCardDetail) {
@@ -92,6 +92,21 @@ const CardDetail = () => {
     return colors[type] || 'bg-gray-400 dark:bg-gray-500';
   };
 
+  const getTypeGradientColor = (type: string) => {
+    const colors: Record<string, string> = {
+      Grass: 'bg-gradient-to-r from-green-500 to-green-600 dark:from-green-600 dark:to-green-700',
+      Fire: 'bg-gradient-to-r from-red-500 to-red-600 dark:from-red-600 dark:to-red-700',
+      Water: 'bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700',
+      Electric: 'bg-gradient-to-r from-yellow-500 to-yellow-600 dark:from-yellow-600 dark:to-yellow-700',
+      Psychic: 'bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-600 dark:to-purple-700',
+      Fighting: 'bg-gradient-to-r from-orange-700 to-orange-800 dark:from-orange-800 dark:to-orange-900',
+      Darkness: 'bg-gradient-to-r from-gray-800 to-gray-900 dark:from-gray-900 dark:to-black',
+      Metal: 'bg-gradient-to-r from-gray-500 to-gray-600 dark:from-gray-600 dark:to-gray-700',
+      Colorless: 'bg-gradient-to-r from-gray-400 to-gray-500 dark:from-gray-500 dark:to-gray-600',
+    };
+    return colors[type] || 'bg-gradient-to-r from-gray-400 to-gray-500 dark:from-gray-500 dark:to-gray-600';
+  };
+
   const formatPrice = (price: number | undefined, unit: string) => {
     return `${unit === 'USD' ? '$' : '€'}${price?.toFixed(2)}`;
   };
@@ -111,7 +126,6 @@ const CardDetail = () => {
   return (
     <div className="container mx-auto px-4 py-6 max-w-7xl">
       <BackButton />
-      
       {isErrorCardDetail ? (
         <div className="flex justify-center py-8">
           <div className="text-md flex items-center gap-2">
@@ -139,8 +153,8 @@ const CardDetail = () => {
           {/* Left Column - Image and General Info */}
           <div className="space-y-6">
             {/* Header Card */}
-            <div className="bg-card rounded-xl shadow-lg border border-border overflow-hidden">
-              <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
+            <div className="rounded-xl shadow-lg border border-border overflow-hidden">
+              <div className={`text-white p-4 ${getTypeGradientColor(pokemonData.types[0])}`}>
                 <div className="flex justify-between items-center">
                   <h1 className="text-2xl font-bold">{pokemonData.name}</h1>
                   <span className="text-sm opacity-90">#{pokemonData.localId}</span>
@@ -151,22 +165,95 @@ const CardDetail = () => {
                 </div>
               </div>
             </div>
-
-            {/* Card Image */}
-            <div className="bg-card rounded-xl shadow-lg border border-border p-6">
-              <img
+            {/* <img
                 src={`${pokemonData.image}/high.png`}
                 alt={pokemonData.name}
                 className="w-full h-auto object-contain rounded-lg max-w-md mx-auto"
-              />
-            </div>
+              /> */}
+            {/* Card Image */}
+            <div className="bg-transparent relative group">
+              <div className="bg-transparent relative perspective-1000">
+                <img
+                  src={`${pokemonData.image}/high.png`}
+                  alt={pokemonData.name}
+                  className="bg-transparent overflow-hidden w-full h-auto object-contain rounded-lg max-w-md mx-auto transition-all duration-300 ease-out cursor-pointer
+                        group-hover:scale-110 
+                        hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] 
+                        transform-gpu preserve-3d z-50"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transform: 'perspective(1000px)'
+                  }}
+                  onMouseMove={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 15;
+                    const rotateY = (centerX - x) / 15;
 
+                    // Calculate cursor position as percentage
+                    const xPercent = (x / rect.width) * 100;
+                    const yPercent = (y / rect.height) * 100;
+
+                    e.currentTarget.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+                    
+                    // Update shine effect position
+                    const shineOverlay = e.currentTarget.nextElementSibling as HTMLElement;
+                    if (shineOverlay) {
+                      shineOverlay.style.background = `
+                        radial-gradient(
+                          600px circle at ${xPercent}% ${yPercent}%, 
+                          rgba(255,255,255,0.4) 0%, 
+                          rgba(255,255,255,0.2) 20%, 
+                          rgba(255,255,255,0.1) 40%, 
+                          transparent 70%
+                        ),
+                        conic-gradient(
+                          from ${(xPercent + yPercent) * 2}deg at ${xPercent}% ${yPercent}%, 
+                          transparent, 
+                          rgba(120,119,198,0.3), 
+                          rgba(255,0,128,0.3), 
+                          rgba(255,200,0,0.3), 
+                          rgba(0,255,128,0.3), 
+                          rgba(0,200,255,0.3), 
+                          transparent
+                        )
+                      `;
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+                    
+                    // Reset shine effect
+                    const shineOverlay = e.currentTarget.nextElementSibling as HTMLElement;
+                    if (shineOverlay) {
+                      shineOverlay.style.background = 'transparent';
+                    }
+                  }}
+                />
+
+                {/* Dynamic holographic overlay that follows cursor */}
+                <div className="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-overlay z-20">
+                </div>
+
+                {/* Rainbow border effect */}
+                <div className="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-50 transition-opacity duration-300 z-30">
+                  <div className="absolute inset-0 rounded-xl rainbow-border"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - Detailed Information */}
+          <div className="space-y-6">
             {/* Basic Info */}
             <div className="bg-card rounded-xl shadow-lg border border-border p-6 space-y-4">
               <h2 className="text-lg font-semibold text-foreground border-b border-border pb-2">
                 General Information
               </h2>
-              
+
               {/* Types */}
               <div className="space-y-2">
                 <span className="text-sm font-medium text-muted-foreground">Types:</span>
@@ -204,10 +291,7 @@ const CardDetail = () => {
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Right Column - Detailed Information */}
-          <div className="space-y-6">
             {/* Attacks */}
             {pokemonData.attacks && pokemonData.attacks.length > 0 && (
               <div className="bg-card rounded-xl shadow-lg border border-border p-6">

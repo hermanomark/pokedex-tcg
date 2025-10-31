@@ -3,3 +3,68 @@
   margin: 0 auto;
   padding: 1rem;
 }
+
+.bg-transparent {
+  background-color: transparent !important;
+}
+
+/* Holographic shimmer animation */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-200%) rotate(45deg);
+  }
+
+  100% {
+    transform: translateX(200%) rotate(45deg);
+  }
+}
+
+/* Rainbow border animation */
+@keyframes rainbow-border {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.rainbow-border {
+  background: linear-gradient(
+    45deg,
+    rgba(255, 0, 150, 0.3),
+    rgba(0, 255, 255, 0.3),
+    rgba(255, 255, 0, 0.3),
+    rgba(255, 0, 150, 0.3)
+  );
+  background-size: 400% 400%;
+  animation: rainbow-border 3s ease infinite;
+  border-radius: inherit;
+  opacity: 0.6;
+  filter: blur(1px);
+}
+
+.shimmer::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.6) 45%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0.6) 55%,
+      transparent 70%);
+  animation: shimmer 1.5s ease-in-out;
+  pointer-events: none;
+}
+
+/* Trigger shimmer on hover */
+.group:hover .shimmer::before {
+  animation: shimmer 1.5s ease-in-out infinite;
+}
