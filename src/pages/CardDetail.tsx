@@ -4,6 +4,7 @@ import { getCardById } from "@/services/cards";
 import { useQuery } from "@tanstack/react-query";
 import BackButton from "@/components/BackButton";
 import { Spinner } from "@/components/ui/spinner";
+import FadeUp from "@/components/FadeUp";
 
 interface CardData {
   id: string;
@@ -124,7 +125,7 @@ const CardDetail = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-7xl">
+    <>
       <BackButton />
       {isErrorCardDetail ? (
         <div className="flex justify-center py-8">
@@ -149,278 +150,258 @@ const CardDetail = () => {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
           {/* Left Column - Image and General Info */}
           <div className="space-y-6">
             {/* Header Card */}
-            <div className="rounded-xl shadow-lg border border-border overflow-hidden">
-              <div className={`text-white p-4 ${getTypeGradientColor(pokemonData.types[0])}`}>
-                <div className="flex justify-between items-center">
-                  <h1 className="text-2xl font-bold">{pokemonData.name}</h1>
-                  <span className="text-sm opacity-90">#{pokemonData.localId}</span>
-                </div>
-                <div className="flex justify-between items-center mt-2">
-                  <span className="text-sm">HP {pokemonData.hp}</span>
-                  <span className="text-sm">{pokemonData.stage}</span>
+            <FadeUp>
+              <div className="rounded-xl shadow-lg border border-border overflow-hidden">
+                <div className={`text-white p-4 ${getTypeGradientColor(pokemonData.types?.[0] || 'Colorless')}`}>
+                  <div className="flex justify-between items-center">
+                    <h1 className="text-2xl font-bold">{pokemonData.name}</h1>
+                    <span className="text-sm opacity-90">#{pokemonData.localId}</span>
+                  </div>
+                  <div className="flex justify-between items-center mt-2">
+                    <span className="text-sm">HP {pokemonData.hp}</span>
+                    <span className="text-sm">{pokemonData.stage}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* <img
-                src={`${pokemonData.image}/high.png`}
-                alt={pokemonData.name}
-                className="w-full h-auto object-contain rounded-lg max-w-md mx-auto"
-              /> */}
+            </FadeUp>
+
             {/* Card Image */}
-            <div className="bg-transparent relative group">
-              <div className="bg-transparent relative perspective-1000">
-                <img
-                  src={`${pokemonData.image}/high.png`}
-                  alt={pokemonData.name}
-                  className="bg-transparent overflow-hidden w-full h-auto object-contain rounded-lg max-w-md mx-auto transition-all duration-300 ease-out cursor-pointer
-                        group-hover:scale-110 
-                        hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] 
-                        transform-gpu preserve-3d z-50"
-                  style={{
-                    transformStyle: 'preserve-3d',
-                    transform: 'perspective(1000px)'
-                  }}
-                  onMouseMove={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    const rotateX = (y - centerY) / 15;
-                    const rotateY = (centerX - x) / 15;
+            <FadeUp>
+              <div className="relative group">
+                <div className="relative perspective-1000">
+                  <img
+                    src={`${pokemonData.image}/high.webp`}
+                    alt={pokemonData.name}
+                    className="shadow-lg group-hover:scale-105 w-full h-auto object-contain rounded-[1.3rem] max-w-md mx-auto transition-all duration-300 ease-out cursor-pointer
+                          hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] 
+                          transform-gpu preserve-3d"
+                    style={{
+                      transformStyle: 'preserve-3d',
+                      transform: 'perspective(1000px)',
+                      filter: 'brightness(1) contrast(1)'
+                    }}
+                    onMouseMove={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      const x = e.clientX - rect.left;
+                      const y = e.clientY - rect.top;
+                      const centerX = rect.width / 2;
+                      const centerY = rect.height / 2;
+                      const rotateX = (y - centerY) / 15;
+                      const rotateY = (centerX - x) / 15;
 
-                    // Calculate cursor position as percentage
-                    const xPercent = (x / rect.width) * 100;
-                    const yPercent = (y / rect.height) * 100;
+                      // Calculate cursor position as percentage
+                      const xPercent = (x / rect.width) * 100;
+                      const yPercent = (y / rect.height) * 100;
 
-                    e.currentTarget.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-                    
-                    // Update shine effect position
-                    const shineOverlay = e.currentTarget.nextElementSibling as HTMLElement;
-                    if (shineOverlay) {
-                      shineOverlay.style.background = `
-                        radial-gradient(
-                          600px circle at ${xPercent}% ${yPercent}%, 
-                          rgba(255,255,255,0.4) 0%, 
-                          rgba(255,255,255,0.2) 20%, 
-                          rgba(255,255,255,0.1) 40%, 
-                          transparent 70%
-                        ),
-                        conic-gradient(
-                          from ${(xPercent + yPercent) * 2}deg at ${xPercent}% ${yPercent}%, 
-                          transparent, 
-                          rgba(120,119,198,0.3), 
-                          rgba(255,0,128,0.3), 
-                          rgba(255,200,0,0.3), 
-                          rgba(0,255,128,0.3), 
-                          rgba(0,200,255,0.3), 
-                          transparent
-                        )
+                      e.currentTarget.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+
+                      // Apply dynamic gradient filter for lightning effect
+                      e.currentTarget.style.filter = `
+                        brightness(1.1) 
+                        contrast(1.1) 
+                        drop-shadow(0 0 20px rgba(255,255,255,0.3))
+                        drop-shadow(${(50 - xPercent) / 4}px ${(50 - yPercent) / 4}px 25px rgba(255,255,255,0.6))
+                        drop-shadow(${(50 - xPercent) / 6}px ${(50 - yPercent) / 6}px 15px rgba(100,200,255,0.4))
+                        drop-shadow(${(50 - xPercent) / 8}px ${(50 - yPercent) / 8}px 10px rgba(255,100,200,0.3))
                       `;
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-                    
-                    // Reset shine effect
-                    const shineOverlay = e.currentTarget.nextElementSibling as HTMLElement;
-                    if (shineOverlay) {
-                      shineOverlay.style.background = 'transparent';
-                    }
-                  }}
-                />
-
-                {/* Dynamic holographic overlay that follows cursor */}
-                <div className="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-overlay z-20">
-                </div>
-
-                {/* Rainbow border effect */}
-                <div className="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-50 transition-opacity duration-300 z-30">
-                  <div className="absolute inset-0 rounded-xl rainbow-border"></div>
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+                      e.currentTarget.style.filter = 'brightness(1) contrast(1)';
+                    }}
+                  />
                 </div>
               </div>
-            </div>
+            </FadeUp>
           </div>
 
           {/* Right Column - Detailed Information */}
           <div className="space-y-6">
             {/* Basic Info */}
-            <div className="bg-card rounded-xl shadow-lg border border-border p-6 space-y-4">
-              <h2 className="text-lg font-semibold text-foreground border-b border-border pb-2">
-                General Information
-              </h2>
+            <FadeUp>
+              <div className="bg-card rounded-xl shadow-lg border border-border p-6 space-y-4">
+                <h2 className="text-lg font-semibold text-foreground border-b border-border pb-2">
+                  General Information
+                </h2>
 
-              {/* Types */}
-              <div className="space-y-2">
-                <span className="text-sm font-medium text-muted-foreground">Types:</span>
-                <div className="flex gap-2 flex-wrap">
-                  {pokemonData.types?.map((type, index) => (
-                    <span
-                      key={index}
-                      className={`px-3 py-1 rounded-full text-white text-sm font-medium ${getTypeColor(type)}`}
-                    >
-                      {type}
-                    </span>
-                  ))}
+                {/* Types */}
+                <div className="space-y-2">
+                  <span className="text-sm font-medium text-muted-foreground">Types:</span>
+                  <div className="flex gap-2 flex-wrap">
+                    {pokemonData.types?.map((type, index) => (
+                      <span
+                        key={index}
+                        className={`px-3 py-1 rounded-full text-white text-sm font-medium ${getTypeColor(type)}`}
+                      >
+                        {type}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Basic Details Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <span className="text-sm font-medium text-muted-foreground">Illustrator:</span>
+                    <p className="text-sm text-foreground">{pokemonData.illustrator}</p>
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium text-muted-foreground">First Edition:</span>
+                    <p className="text-sm text-foreground">
+                      {pokemonData.variants.firstEdition ? 'Yes' : 'No'}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium text-muted-foreground">Rarity:</span>
+                    <p className="text-sm text-foreground">{pokemonData.rarity}</p>
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium text-muted-foreground">Set:</span>
+                    <p className="text-sm text-foreground">{pokemonData.set.name}</p>
+                  </div>
                 </div>
               </div>
-
-              {/* Basic Details Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <span className="text-sm font-medium text-muted-foreground">Illustrator:</span>
-                  <p className="text-sm text-foreground">{pokemonData.illustrator}</p>
-                </div>
-                <div>
-                  <span className="text-sm font-medium text-muted-foreground">First Edition:</span>
-                  <p className="text-sm text-foreground">
-                    {pokemonData.variants.firstEdition ? 'Yes' : 'No'}
-                  </p>
-                </div>
-                <div>
-                  <span className="text-sm font-medium text-muted-foreground">Rarity:</span>
-                  <p className="text-sm text-foreground">{pokemonData.rarity}</p>
-                </div>
-                <div>
-                  <span className="text-sm font-medium text-muted-foreground">Set:</span>
-                  <p className="text-sm text-foreground">{pokemonData.set.name}</p>
-                </div>
-              </div>
-            </div>
+            </FadeUp>
 
             {/* Attacks */}
             {pokemonData.attacks && pokemonData.attacks.length > 0 && (
-              <div className="bg-card rounded-xl shadow-lg border border-border p-6">
-                <h2 className="text-lg font-semibold text-foreground border-b border-border pb-2 mb-4">
-                  Attacks
-                </h2>
-                <div className="space-y-4">
-                  {pokemonData.attacks.map((attack, index) => (
-                    <div key={index} className="bg-muted/50 border border-border rounded-lg p-4">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="font-medium text-foreground">{attack.name}</span>
-                        <span className="text-red-600 dark:text-red-400 font-bold">{attack.damage}</span>
+              <FadeUp>
+                <div className="bg-card rounded-xl shadow-lg border border-border p-6">
+                  <h2 className="text-lg font-semibold text-foreground border-b border-border pb-2 mb-4">
+                    Attacks
+                  </h2>
+                  <div className="space-y-4">
+                    {pokemonData.attacks.map((attack, index) => (
+                      <div key={index} className="bg-muted/50 border border-border rounded-lg p-4">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="font-medium text-foreground">{attack.name}</span>
+                          <span className="text-red-600 dark:text-red-400 font-bold">{attack.damage}</span>
+                        </div>
+                        <div className="flex gap-1 mb-3">
+                          {attack.cost.map((cost, costIndex) => (
+                            <span
+                              key={costIndex}
+                              className={`px-2 py-1 rounded text-xs text-white ${getTypeColor(cost)}`}
+                            >
+                              {cost}
+                            </span>
+                          ))}
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          {attack.effect}
+                        </p>
                       </div>
-                      <div className="flex gap-1 mb-3">
-                        {attack.cost.map((cost, costIndex) => (
-                          <span
-                            key={costIndex}
-                            className={`px-2 py-1 rounded text-xs text-white ${getTypeColor(cost)}`}
-                          >
-                            {cost}
-                          </span>
-                        ))}
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        {attack.effect}
-                      </p>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </FadeUp>
             )}
 
             {/* Legal Formats */}
             {(pokemonData.legal.standard || pokemonData.legal.expanded) && (
-              <div className="bg-card rounded-xl shadow-lg border border-border p-6">
-                <h2 className="text-lg font-semibold text-foreground border-b border-border pb-2 mb-4">
-                  Legal Formats
-                </h2>
-                <div className="flex gap-3">
-                  {pokemonData.legal.standard && (
-                    <span className="px-3 py-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-lg text-sm font-medium">
-                      Standard
-                    </span>
-                  )}
-                  {pokemonData.legal.expanded && (
-                    <span className="px-3 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-lg text-sm font-medium">
-                      Expanded
-                    </span>
-                  )}
+              <FadeUp>
+                <div className="bg-card rounded-xl shadow-lg border border-border p-6">
+                  <h2 className="text-lg font-semibold text-foreground border-b border-border pb-2 mb-4">
+                    Legal Formats
+                  </h2>
+                  <div className="flex gap-3">
+                    {pokemonData.legal.standard && (
+                      <span className="px-3 py-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-lg text-sm font-medium">
+                        Standard
+                      </span>
+                    )}
+                    {pokemonData.legal.expanded && (
+                      <span className="px-3 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-lg text-sm font-medium">
+                        Expanded
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
+              </FadeUp>
             )}
 
             {/* Pricing */}
             {pokemonData.pricing?.tcgplayer && (
-              <div className="bg-card rounded-xl shadow-lg border border-border p-6">
-                <h2 className="text-lg font-semibold text-foreground border-b border-border pb-2 mb-4">
-                  TCGPlayer Pricing
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                  {pokemonData.pricing.tcgplayer?.holofoil && (
-                    <div className="bg-muted/50 rounded-lg p-4 border border-border">
-                      <div className="font-medium text-foreground mb-2">Holofoil</div>
-                      <div className="space-y-1">
-                        <div className="text-sm">
-                          <span className="text-muted-foreground">Market:</span>{' '}
-                          <span className="font-medium text-foreground">
-                            {formatPrice(pokemonData.pricing.tcgplayer?.holofoil?.marketPrice, pokemonData.pricing.tcgplayer?.unit)}
-                          </span>
-                        </div>
-                        <div className="text-sm">
-                          <span className="text-muted-foreground">Low:</span>{' '}
-                          <span className="text-foreground">
-                            {formatPrice(pokemonData.pricing.tcgplayer?.holofoil?.lowPrice, pokemonData.pricing.tcgplayer?.unit)}
-                          </span>
+              <FadeUp>
+                <div className="bg-card rounded-xl shadow-lg border border-border p-6">
+                  <h2 className="text-lg font-semibold text-foreground border-b border-border pb-2 mb-4">
+                    TCGPlayer Pricing
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    {pokemonData.pricing.tcgplayer?.holofoil && (
+                      <div className="bg-muted/50 rounded-lg p-4 border border-border">
+                        <div className="font-medium text-foreground mb-2">Holofoil</div>
+                        <div className="space-y-1">
+                          <div className="text-sm">
+                            <span className="text-muted-foreground">Market:</span>{' '}
+                            <span className="font-medium text-foreground">
+                              {formatPrice(pokemonData.pricing.tcgplayer?.holofoil?.marketPrice, pokemonData.pricing.tcgplayer?.unit)}
+                            </span>
+                          </div>
+                          <div className="text-sm">
+                            <span className="text-muted-foreground">Low:</span>{' '}
+                            <span className="text-foreground">
+                              {formatPrice(pokemonData.pricing.tcgplayer?.holofoil?.lowPrice, pokemonData.pricing.tcgplayer?.unit)}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {pokemonData.pricing.tcgplayer?.normal && (
-                    <div className="bg-muted/50 rounded-lg p-4 border border-border">
-                      <div className="font-medium text-foreground mb-2">Normal</div>
-                      <div className="space-y-1">
-                        <div className="text-sm">
-                          <span className="text-muted-foreground">Market:</span>{' '}
-                          <span className="font-medium text-foreground">
-                            {formatPrice(pokemonData.pricing.tcgplayer?.normal?.marketPrice, pokemonData.pricing.tcgplayer?.unit)}
-                          </span>
-                        </div>
-                        <div className="text-sm">
-                          <span className="text-muted-foreground">Low:</span>{' '}
-                          <span className="text-foreground">
-                            {formatPrice(pokemonData.pricing.tcgplayer?.normal?.lowPrice, pokemonData.pricing.tcgplayer?.unit)}
-                          </span>
+                    {pokemonData.pricing.tcgplayer?.normal && (
+                      <div className="bg-muted/50 rounded-lg p-4 border border-border">
+                        <div className="font-medium text-foreground mb-2">Normal</div>
+                        <div className="space-y-1">
+                          <div className="text-sm">
+                            <span className="text-muted-foreground">Market:</span>{' '}
+                            <span className="font-medium text-foreground">
+                              {formatPrice(pokemonData.pricing.tcgplayer?.normal?.marketPrice, pokemonData.pricing.tcgplayer?.unit)}
+                            </span>
+                          </div>
+                          <div className="text-sm">
+                            <span className="text-muted-foreground">Low:</span>{' '}
+                            <span className="text-foreground">
+                              {formatPrice(pokemonData.pricing.tcgplayer?.normal?.lowPrice, pokemonData.pricing.tcgplayer?.unit)}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {pokemonData.pricing.tcgplayer["reverse-holofoil"] && (
-                    <div className="bg-muted/50 rounded-lg p-4 border border-border">
-                      <div className="font-medium text-foreground mb-2">Reverse Holofoil</div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="text-sm">
-                          <span className="text-muted-foreground">Market:</span>{' '}
-                          <span className="font-medium text-foreground">
-                            {formatPrice(pokemonData.pricing.tcgplayer["reverse-holofoil"]?.marketPrice, pokemonData.pricing.tcgplayer?.unit)}
-                          </span>
-                        </div>
-                        <div className="text-sm">
-                          <span className="text-muted-foreground">Low:</span>{' '}
-                          <span className="text-foreground">
-                            {formatPrice(pokemonData.pricing.tcgplayer["reverse-holofoil"]?.lowPrice, pokemonData.pricing.tcgplayer?.unit)}
-                          </span>
+                    {pokemonData.pricing.tcgplayer["reverse-holofoil"] && (
+                      <div className="bg-muted/50 rounded-lg p-4 border border-border">
+                        <div className="font-medium text-foreground mb-2">Reverse Holofoil</div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="text-sm">
+                            <span className="text-muted-foreground">Market:</span>{' '}
+                            <span className="font-medium text-foreground">
+                              {formatPrice(pokemonData.pricing.tcgplayer["reverse-holofoil"]?.marketPrice, pokemonData.pricing.tcgplayer?.unit)}
+                            </span>
+                          </div>
+                          <div className="text-sm">
+                            <span className="text-muted-foreground">Low:</span>{' '}
+                            <span className="text-foreground">
+                              {formatPrice(pokemonData.pricing.tcgplayer["reverse-holofoil"]?.lowPrice, pokemonData.pricing.tcgplayer?.unit)}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Last updated: {formatDate(pokemonData.pricing.tcgplayer?.updated)}
+                  </div>
                 </div>
-                <div className="text-xs text-muted-foreground">
-                  Last updated: {formatDate(pokemonData.pricing.tcgplayer?.updated)}
-                </div>
-              </div>
+              </FadeUp>
             )}
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
