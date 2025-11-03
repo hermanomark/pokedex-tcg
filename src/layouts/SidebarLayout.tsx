@@ -7,10 +7,10 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="container min-h-screen">
+      <main className="w-full min-h-screen">
         <SidebarTrigger className="cursor-pointer" />
         <ModeToggle />
-        <div className="container mx-auto px-4 py-4">
+        <div className="w-full mx-auto px-4 py-4">
           {children}
         </div>
         <ScrollToTopButton />

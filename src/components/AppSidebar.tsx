@@ -1,4 +1,4 @@
-import { Fish, Bird, Origami } from "lucide-react"
+import { Fish, Bird, Origami, Home } from "lucide-react"
 import { Link } from "react-router-dom";
 import {
   Sidebar,
@@ -16,6 +16,11 @@ const items: Array<{ title: string; url: string; icon: React.ElementType }> = [
   {
     title: "Home",
     url: "/",
+    icon: Home,
+  },
+  {
+    title: "TCG Cards",
+    url: "/cards",
     icon: Fish,
   },
   {

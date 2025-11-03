@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 
 import Home from './pages/Home';
-const Cards = lazy(() => import('./pages/Home'));
+const TcgCards = lazy(() => import('./pages/TcgCards'));
 const Series = lazy(() => import('./pages/Series'));
 const SeriesDetail = lazy(() => import('./pages/SeriesDetail'));
 const Sets = lazy(() => import('./pages/Sets'));
@@ -16,7 +16,7 @@ export const appRoutes = [
   },
   {
     path: '/cards',
-    component: Cards,
+    component: TcgCards,
   },
   {
     path: '/series',
