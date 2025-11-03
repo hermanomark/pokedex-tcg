@@ -43,8 +43,6 @@ export const getAllCards = async (
 
     url += `&image=notnull:`;
 
-    console.log('Fetching cards with URL:', url);
-
     const response = await api.get(url);
 
     return response.data;

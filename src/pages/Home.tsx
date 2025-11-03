@@ -9,75 +9,80 @@ import Autoplay from "embla-carousel-autoplay";
 import { useRef } from 'react';
 
 const Home = () => {
-  // Auto-slide plugin reference
   const plugin = useRef(
     Autoplay({ delay: 1000, stopOnInteraction: true })
   );
 
-  // Sample card data for slider
   const featuredCards = [
     {
-      id: 1,
+      id: "xy2-12",
       name: "Charizard ex",
-      image: "/api/placeholder/200/280",
+      image: "https://assets.tcgdex.net/en/xy/xy2/12/high.webp",
       rarity: "Ultra Rare",
-      set: "Obsidian Flames"
+      set: "Flashfire"
     },
     {
-      id: 2,
+      id: "swsh4-188",
       name: "Pikachu VMAX",
-      image: "/api/placeholder/200/280",
+      image: "https://assets.tcgdex.net/en/swsh/swsh4/188/high.webp",
       rarity: "Secret Rare",
       set: "Vivid Voltage"
     },
     {
-      id: 3,
+      id: "swsh7-194",
       name: "Rayquaza V",
-      image: "/api/placeholder/200/280",
+      image: "https://assets.tcgdex.net/en/swsh/swsh7/194/high.webp",
       rarity: "Ultra Rare",
       set: "Evolving Skies"
     },
     {
-      id: 4,
-      name: "Mewtwo ex",
-      image: "/api/placeholder/200/280",
-      rarity: "Ultra Rare",
+      id: "A4a-087",
+      name: "Entei ex",
+      image: "https://assets.tcgdex.net/en/tcgp/A4a/087/high.webp",
+      rarity: "Two Star",
+      set: "Scheduled Springs"
+    },
+    {
+      id: "A3b-104",
+      name: "Articuno ex",
+      image: "https://assets.tcgdex.net/en/tcgp/A3b/104/high.webp",
+      rarity: "Two Shiny",
+      set: "Eevee Grove"
+    },
+    {
+      id: "sv03.5-205",
+      name: "Mew ex",
+      image: "https://assets.tcgdex.net/en/sv/sv03.5/205/high.webp",
+      rarity: "Hyper Rare",
       set: "151"
     },
     {
-      id: 6,
+      id: "swsh12-139",
       name: "Lugia VSTAR",
-      image: "/api/placeholder/200/280",
-      rarity: "Secret Rare",
+      image: "https://assets.tcgdex.net/en/swsh/swsh12/139/high.webp",
+      rarity: "Holo Rare VSTAR",
       set: "Silver Tempest"
     },
     {
-      id: 7,
-      name: "Lugia VSTAR",
-      image: "/api/placeholder/200/280",
-      rarity: "Secret Rare",
-      set: "Silver Tempest"
+      id: "A1-254",
+      name: "Arcanine ex",
+      image: "https://assets.tcgdex.net/en/tcgp/A1/254/high.webp",
+      rarity: "Two Star",
+      set: "Genetic Apex"
     },
     {
-      id: 8,
-      name: "Lugia VSTAR",
-      image: "/api/placeholder/200/280",
-      rarity: "Secret Rare",
-      set: "Silver Tempest"
+      id: "sv08.5-030",
+      name: "Jolteon ex",
+      image: "https://assets.tcgdex.net/en/sv/sv08.5/030/high.webp",
+      rarity: "Double Rare",
+      set: "Prismatic Evolutions"
     },
     {
-      id: 9,
-      name: "Lugia VSTAR",
-      image: "/api/placeholder/200/280",
-      rarity: "Secret Rare",
-      set: "Silver Tempest"
-    },
-    {
-      id: 10,
-      name: "Lugia VSTAR",
-      image: "/api/placeholder/200/280",
-      rarity: "Secret Rare",
-      set: "Silver Tempest"
+      id: "swsh6-161",
+      name: "Blaziken V",
+      image: "https://assets.tcgdex.net/en/swsh/swsh6/161/high.webp",
+      rarity: "Ultra Rare",
+      set: "Chilling Reign"
     }
   ];
 
@@ -163,9 +168,9 @@ const Home = () => {
           >
             <div className="relative z-10">
               <img 
-                src="/api/placeholder/500/600" 
+                src="https://assets.tcgdex.net/en/tcgp/P-A/009/high.webp" 
                 alt="Featured Pokémon Card"
-                className="w-full max-w-md mx-auto rounded-2xl shadow-2xl"
+                className="transition-transform duration-500 ease-out hover:-translate-y-2 w-full max-w-md mx-auto rounded-2xl shadow-2xl"
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-2xl blur-3xl opacity-20 scale-105"></div>
@@ -214,6 +219,7 @@ const Home = () => {
                     >
                       <Card className="bg-card/80 backdrop-blur-sm border shadow-lg hover:shadow-xl transition-all duration-300 h-full">
                         <CardContent className="p-4">
+                          <Link to={`/cards/${card.id}`} className="absolute inset-0 z-10" />
                           <div className="relative mb-4">
                             <img 
                               src={card.image} 
@@ -270,9 +276,9 @@ const Home = () => {
                 whileHover={{ scale: 1.05 }}
                 className="group"
               >
-                <Card className="h-full bg-card/80 backdrop-blur-sm border shadow-lg hover:shadow-xl transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-yellow-50 group-hover:to-amber-50 dark:group-hover:from-yellow-950/30 dark:group-hover:to-amber-950/30">
+                <Card className="h-full bg-card/80 backdrop-blur-sm border shadow-lg hover:shadow-xl transition-all duration-300">
                   <CardHeader className="text-center">
-                    <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-yellow-100 to-amber-100 dark:from-yellow-900/50 dark:to-amber-900/50 rounded-full w-fit group-hover:from-yellow-200 group-hover:to-amber-200 dark:group-hover:from-yellow-800/50 dark:group-hover:to-amber-800/50 transition-colors">
+                    <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-yellow-100 to-amber-100 dark:from-yellow-900/50 dark:to-amber-900/50 rounded-full w-fit">
                       {feature.icon}
                     </div>
                     <CardTitle className="text-xl">{feature.title}</CardTitle>
@@ -309,7 +315,7 @@ const Home = () => {
               <h3 className="text-2xl font-bold bg-gradient-to-r from-yellow-600 to-amber-600 dark:from-yellow-400 dark:to-amber-400 bg-clip-text text-transparent mb-2">
                 Pokédex TCG
               </h3>
-              <p className="text-muted-foreground">Made by Mark Jason Hermano</p>
+              <p className="text-muted-foreground">Made by Mark Hermano 🦉</p>
             </div>
             
             <div className="flex gap-4">

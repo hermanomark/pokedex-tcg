@@ -282,7 +282,7 @@ const CardDetail = () => {
                           <span className="text-red-600 dark:text-red-400 font-bold">{attack.damage}</span>
                         </div>
                         <div className="flex gap-1 mb-3">
-                          {attack.cost.map((cost, costIndex) => (
+                          {attack.cost && attack.cost.map((cost, costIndex) => (
                             <span
                               key={costIndex}
                               className={`px-2 py-1 rounded text-xs text-white ${getTypeColor(cost)}`}
