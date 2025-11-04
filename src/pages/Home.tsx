@@ -131,7 +131,7 @@ const Home = () => {
   return (
     <div className="min-h-screen rounded-2xl">
       {/* Hero Section */}
-      <section className="px-12 py-16 lg:py-24">
+      <section className="px-4 sm:px-12 py-16 lg:py-24">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -197,7 +197,7 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="max-w-7xl mx-auto"
+            className="max-w-5xl mx-auto"
           >
             <Carousel
               plugins={[plugin.current]}
