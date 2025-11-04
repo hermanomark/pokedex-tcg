@@ -1,73 +1,89 @@
-# React + TypeScript + Vite
+# Pokédex TCG
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application for exploring Pokémon Trading Card Game cards, sets, and series. Built with React, TypeScript, and powered by the TCGdex API.
 
-Currently, two official plugins are available:
+## Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Visit the live application at [https://pokedex-tcg-delta.vercel.app/](https://pokedex-tcg-delta.vercel.app/)
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Browse Cards
+- Search through thousands of Pokémon trading cards
+- Filter by category, type, rarity, and HP range
+- Sort cards by name, HP, and release date
+- View detailed card information including attacks, pricing, and legality
+- High-quality card images 
 
-## Expanding the ESLint configuration
+### Explore Sets
+- Browse complete card sets from classic to latest releases
+- Search and sort sets by name and release date
+- View set details including card counts and release information
+- Navigate through all cards within a set
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Discover Series
+- Explore different Pokémon TCG series and expansions
+- View series timelines and included sets
+- Access detailed information about first and last sets in each series
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Made With
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- React for the frontend framework
+- Vite for the build tool
+- Tailwind CSS for styling and responsive design
+- Shadcdn UI for ready to use components
+- Framer Motion for animation
+- TanStack Query (React Query) for data fetching
+- React router for client side routing
+- **API**: TCGdex API (https://tcgdex.dev/)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting Started
+
+### Prerequisites
+
+- Node.js (version 18 or higher recommended)
+- npm or yarn package manager
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/hermanomark/pokedex-tcg.git
+cd pokedex-tcg
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. Install dependencies
+```bash
+npm install
 ```
+
+3. Start the development server
+```bash
+npm run dev
+```
+
+4. Open your browser and navigate to `http://localhost:5173`
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+The build output will be in the `dist` directory.
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+## API Integration
+
+This project uses the TCGdex API to fetch Pokémon TCG data. 
+- API Documentation: [https://tcgdex.dev/](https://tcgdex.dev/)
+- Base URL: `https://api.tcgdex.net/v2/en`
+
+## Contributing
+
+Contributions are welcome. Please feel free to submit a pull request.
