@@ -2,7 +2,7 @@ import api from './client';
 import { getErrorMessage } from '@/utils/errorHandler';
 
 export const getAllSeries = async (
-  page = 1, 
+  page = 1,
   itemsPerPage = 10,
   sortBy: string = 'releaseDate:ASC') => {
   try {

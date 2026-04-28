@@ -61,8 +61,7 @@ const SortButton = ({ onSortChange, currentSort, type }: { onSortChange: (sort: 
                 <Button
                   key={option.value}
                   onClick={() => handleSortSelect(option.value)}
-                  className={`cursor-pointer w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${currentSort === option.value ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
-                    }`}
+                  className={`cursor-pointer w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${currentSort === option.value ? 'bg-blue-50 text-blue-600' : 'text-gray-700'}`}
                   variant='ghost'
                 >
                   {option.label}

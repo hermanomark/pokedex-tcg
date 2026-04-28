@@ -177,7 +177,7 @@ const CardDetail = () => {
                     src={`${pokemonData.image}/high.webp`}
                     alt={pokemonData.name}
                     className="shadow-lg group-hover:scale-105 w-full h-auto object-contain rounded-[1.3rem] max-w-md mx-auto transition-all duration-300 ease-out cursor-pointer
-                          hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] 
+                          hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]
                           transform-gpu preserve-3d"
                     style={{
                       transformStyle: 'preserve-3d',

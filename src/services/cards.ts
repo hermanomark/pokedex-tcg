@@ -2,13 +2,13 @@ import api from "./client";
 import { getErrorMessage } from "@/utils/errorHandler";
 
 export const getAllCards = async (
-  page: number = 1, 
-  itemsPerPage: number = 10, 
-  searchName: string = '', 
-  category: string = '', 
-  types: string[] = [], 
-  rarities: string[] = [], 
-  hpRange: [number, number] = [0, 500], 
+  page: number = 1,
+  itemsPerPage: number = 10,
+  searchName: string = '',
+  category: string = '',
+  types: string[] = [],
+  rarities: string[] = [],
+  hpRange: [number, number] = [0, 500],
   sortBy: string = ''
 ) => {
   try {

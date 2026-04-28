@@ -63,7 +63,7 @@ const SidebarFilter = ({
               className="cursor-pointer"
               variant='ghost'
             >
-             <X />
+              <X />
             </Button>
           </div>
 
@@ -109,7 +109,7 @@ const SidebarFilter = ({
                 }}
                 className="cursor-pointer w-full"
                 variant='outline'>
-                Clear Filters 
+                Clear Filters
               </Button>
             </div>
           </div>

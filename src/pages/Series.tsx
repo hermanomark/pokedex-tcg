@@ -52,7 +52,7 @@ const Series = () => {
   }, [hasNextPage, fetchNextPage]);
 
   if (isError) return <p>Error: {error.message}</p>;
-  
+
   return (
     <>
       <Header header="Series" />

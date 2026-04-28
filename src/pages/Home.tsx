@@ -152,14 +152,14 @@ const Home = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/cards">
-              <Button size="lg" className="group cursor-pointer">
-                Start Exploring
-                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
+                <Button size="lg" className="group cursor-pointer">
+                  Start Exploring
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
               </Link>
             </div>
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -167,8 +167,8 @@ const Home = () => {
             className="relative"
           >
             <div className="relative z-10">
-              <img 
-                src="https://assets.tcgdex.net/en/tcgp/P-A/009/high.webp" 
+              <img
+                src="https://assets.tcgdex.net/en/tcgp/P-A/009/high.webp"
                 alt="Featured Pokémon Card"
                 className="transition-transform duration-500 ease-out hover:-translate-y-2 w-full max-w-md mx-auto rounded-2xl shadow-2xl"
               />
@@ -221,13 +221,13 @@ const Home = () => {
                         <CardContent className="p-4">
                           <Link to={`/cards/${card.id}`} className="absolute inset-0 z-10" />
                           <div className="relative mb-4">
-                            <img 
-                              src={card.image} 
+                            <img
+                              src={card.image}
                               alt={card.name}
                               className="w-full aspect-[3/4] object-cover rounded-lg"
                             />
-                            <Badge 
-                              variant="secondary" 
+                            <Badge
+                              variant="secondary"
                               className="absolute top-2 right-2 bg-yellow-100 text-yellow-700 dark:bg-yellow-900/50 dark:text-yellow-300"
                             >
                               {card.rarity}
@@ -288,10 +288,10 @@ const Home = () => {
                       {feature.description}
                     </CardDescription>
                     <Link to={feature.link}>
-                    <Button className="cursor-pointer">
-                      Explore
-                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </Button>
+                      <Button className="cursor-pointer">
+                        Explore
+                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      </Button>
                     </Link>
                   </CardContent>
                 </Card>
@@ -317,7 +317,7 @@ const Home = () => {
               </h3>
               <p className="text-muted-foreground">Made by Mark Hermano 🦉</p>
             </div>
-            
+
             <div className="flex gap-4">
               <motion.a
                 href="https://github.com/hermanomark"
