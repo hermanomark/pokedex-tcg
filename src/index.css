@@ -3,8 +3,16 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "Pokemon Solid";
+  src: url("/fonts/Pokemon Solid.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Nunito", sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
@@ -83,6 +91,9 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-hover-surface: var(--hover-surface);
+  --font-heading: "Pokemon Solid", cursive;
+  --font-body: "Nunito", sans-serif;
+  --font-ui: "Quicksand", sans-serif;
 }
 
 .dark {
@@ -125,6 +136,18 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+  button,
+  [role="button"] {
+    @apply font-ui;
   }
 }

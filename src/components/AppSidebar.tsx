@@ -1,4 +1,4 @@
-import { Fish, Bird, Origami, Home } from "lucide-react"
+import { Sparkles, Database, BookOpen, Home } from "lucide-react"
 import { Link } from "react-router-dom";
 import {
   Sidebar,
@@ -27,17 +27,17 @@ const sidebarItems: SidebarItem[] = [
   {
     title: "TCG Cards",
     url: "/cards",
-    icon: Fish,
+    icon: Sparkles,
   },
   {
     title: "Sets",
     url: "/sets",
-    icon: Bird,
+    icon: Database,
   },
   {
     title: "Series",
     url: "/series",
-    icon: Origami,
+    icon: BookOpen,
   }
 ];
 
