@@ -18,7 +18,9 @@ const Series = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: ['series'],
-    queryFn: ({ pageParam = 1 }) => getAllSeries(pageParam as number, 10),
+    queryFn: ({ pageParam = 1 }) => getAllSeries(
+      { page: pageParam as number, itemsPerPage: 10 }
+    ),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       if (!lastPage || (Array.isArray(lastPage) && (lastPage.length === 0 || lastPage.length < 10))) {
@@ -30,7 +32,7 @@ const Series = () => {
   });
 
   const series = (data?.pages ?? []).flatMap((page) =>
-    page.filter((card: { logo: string }) => card.logo)
+    page.filter((card) => card.logo)
   ) ?? [];
 
   const loadMoreRef = useRef(null);

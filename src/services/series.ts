@@ -1,6 +1,6 @@
 import api from './client';
 import { getErrorMessage } from '@/utils/errorHandler';
-import { type SeriesBase, type SeriesBrief } from '@/types';
+import { type SeriesBase } from '@/types';
 
 interface GetAllSeriesParams {
   page?: number;
@@ -22,9 +22,7 @@ export const getAllSeries = async ({
       url += `&sort:order=${encodeURIComponent(sortByArr[1])}`;
     }
 
-    console.log(url);
-
-    const response = await api.get<SeriesBrief[]>(url);
+    const response = await api.get<SeriesBase[]>(url);
 
     return response.data;
   } catch (error: unknown) {

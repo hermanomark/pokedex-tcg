@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { Github, Linkedin, ArrowRight, Sparkles, Database, BookOpen } from 'lucide-react';
+import { Github, ArrowRight, Sparkles, Database, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Autoplay from "embla-carousel-autoplay";
 import { useRef } from 'react';

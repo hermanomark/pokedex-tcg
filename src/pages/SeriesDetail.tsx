@@ -6,26 +6,7 @@ import BackButton from "../components/BackButton";
 import noImage from '../assets/no-image.png';
 import { Spinner } from "../components/ui/spinner";
 import FadeUp from "@/components/FadeUp";
-
-interface Set {
-  id: string;
-  name: string;
-  logo?: string;
-  symbol?: string;
-  cardCount: {
-    official: number;
-    total: number;
-  };
-}
-
-interface SeriesDetail {
-  name: string;
-  logo?: string;
-  releaseDate: string;
-  firstSet: Set;
-  lastSet: Set;
-  sets: Set[];
-}
+import { type SeriesBase, type SetBrief } from "@/types";
 
 const SeriesDetail = () => {
   const { id } = useParams();
@@ -34,7 +15,7 @@ const SeriesDetail = () => {
 
   const { data: seriesDetail,
     isLoading,
-    error: errorSeriesDetail, isError: isErrorSeriesDetail } = useQuery<SeriesDetail>({
+    error: errorSeriesDetail, isError: isErrorSeriesDetail } = useQuery<SeriesBase>({
       queryKey: ['series', id],
       queryFn: () => {
         if (!id) throw new Error('Series ID is required');
@@ -47,7 +28,7 @@ const SeriesDetail = () => {
   useEffect(() => {
     if (isErrorSeriesDetail) {
       const timer = setTimeout(() => {
-        navigate('/sets');
+        navigate('/series');
       }, 3000);
 
       return () => clearTimeout(timer);
@@ -142,7 +123,7 @@ const SeriesDetail = () => {
                         <h2 className="text-2xl font-bold text-secondary-foreground mb-4">Included Sets</h2>
                       </FadeUp>
                       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                        {seriesDetail.sets.map((set: Set) => (
+                        {seriesDetail.sets.map((set: SetBrief) => (
                           <FadeUp key={set.id}>
                             <Link to={`/sets/${set.id}`}>
                               <div

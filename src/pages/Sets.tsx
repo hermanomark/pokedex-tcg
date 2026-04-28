@@ -10,6 +10,7 @@ import SearchInput from '../components/SearchInput';
 import { useDebounce } from 'react-use';
 import { useSearchParams } from 'react-router-dom';
 import SortButton from '@/components/SortButton';
+import { type SetBrief } from '@/types';
 
 const Sets = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -37,7 +38,7 @@ const Sets = () => {
     isFetchingNextPage,
     isLoading,
     isError
-  } = useInfiniteQuery({
+  } = useInfiniteQuery<SetBrief[]>({
     queryKey: ['sets', debouncedSearchTerm, sortBy],
     queryFn: ({ pageParam = 1 }) => getAllSets({
       page: pageParam as number,

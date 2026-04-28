@@ -7,6 +7,9 @@ export interface SeriesBrief {
 export interface SeriesBase extends SeriesBrief {
   logo?: string;
   sets: SetBrief[];
+  firstSet: SetBrief;
+  lastSet: SetBrief;
+  releaseDate: string;
 }
 
 export interface SetBriefCardCount {
@@ -27,11 +30,11 @@ export interface SetBrief {
   name: string;
   logo?: string;
   symbol?: string;
-  CardCount: SetBriefCardCount;
+  cardCount: SetBriefCardCount;
 }
 
 export interface SetBase extends SetBrief {
-  CardCount: SetBaseCardCount;
+  cardCount: SetBaseCardCount;
   serie: SeriesBrief;
   tcgOnline?: string;
   legal: {
@@ -40,6 +43,11 @@ export interface SetBase extends SetBrief {
   }
   booster: Booster[];
   cards: CardBrief[];
+  releaseDate: string;
+  abbreviation: {
+    official: string;
+    tcgOnline?: string;
+  }
 }
 
 

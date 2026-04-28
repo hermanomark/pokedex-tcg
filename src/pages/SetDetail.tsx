@@ -10,6 +10,7 @@ import noImage from '../assets/no-image.png';
 import LoadMore from "../components/LoadMore";
 import { Spinner } from "../components/ui/spinner";
 import FadeUp from "@/components/FadeUp";
+import type { SetBase, CardBrief } from "@/types";
 
 const SetDetail = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const SetDetail = () => {
   const { data: setDetail,
     isLoading,
     error: errorSetDetail, isError: isErrorSetDetail } =
-    useQuery({
+    useQuery<SetBase>({
       queryKey: ["set", id],
       queryFn: () => {
         if (!id) throw new Error("Set ID is required");
@@ -29,13 +30,13 @@ const SetDetail = () => {
       retry: false
     });
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<CardBrief[]>({
     queryKey: ["setCards", id],
     queryFn: ({ pageParam = 1 }) => {
       if (!id) throw new Error("Set ID is required");
       return getAllCardsInSet({
         id: id,
-        page: pageParam,
+        page: pageParam as number,
         itemsPerPage: 10
       });
     },
@@ -51,7 +52,7 @@ const SetDetail = () => {
   });
 
   const setCards = (data?.pages ?? []).flatMap(page =>
-    page.filter((card: { image: string }) => card.image) ?? []
+    page.filter(card => card.image) ?? []
   );
 
   useEffect(() => {
@@ -104,7 +105,7 @@ const SetDetail = () => {
               <>
                 <FadeUp>
                   <div className="bg-card rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow p-4 flex flex-col md:flex-row items-center gap-4 mb-8 mt-4 border border-border">
-                    {setDetail.logo && (
+                    {setDetail?.logo && (
                       <div className="flex-shrink-0 w-32 h-32 flex items-center justify-center bg-card rounded-lg">
                         {setDetail.logo ? <img
                           src={`${setDetail.logo}.png`}
@@ -121,41 +122,41 @@ const SetDetail = () => {
                     )}
 
                     <div className="flex flex-col justify-between text-center md:text-left w-full">
-                      {setDetail.name && (
+                      {setDetail?.name && (
                         <h2 className="text-2xl font-bold text-primary">{setDetail.name}</h2>
                       )}
 
-                      {setDetail.serie?.name && (
+                      {setDetail?.serie?.name && (
                         <p className="text-sm text-secondary-foreground mt-1">
                           Series: <span className="font-medium">{setDetail.serie.name}</span>
                         </p>
                       )}
 
-                      {setDetail.releaseDate && (
+                      {setDetail?.releaseDate && (
                         <p className="text-sm text-secondary-foreground mt-1">
                           Release Date: <span className="font-medium">{setDetail.releaseDate}</span>
                         </p>
                       )}
 
-                      {setDetail.abbreviation?.official && (
+                      {setDetail?.abbreviation?.official && (
                         <p className="text-sm text-secondary-foreground mt-1">
                           Abbreviation: <span className="font-medium">{setDetail.abbreviation.official}</span>
                         </p>
                       )}
 
-                      {setDetail.cardCount && (
+                      {setDetail?.cardCount && (
                         <div className="mt-3 flex flex-wrap justify-center md:justify-start gap-2">
-                          {setDetail.cardCount.official !== undefined && (
+                          {setDetail?.cardCount?.official !== undefined && (
                             <span className="text-sm bg-secondary px-3 py-1 rounded-md">
                               Total: {setDetail.cardCount.official}
                             </span>
                           )}
-                          {setDetail.cardCount.normal !== undefined && (
+                          {setDetail?.cardCount?.normal !== undefined && (
                             <span className="text-sm bg-secondary px-3 py-1 rounded-md">
                               Normal: {setDetail.cardCount.normal}
                             </span>
                           )}
-                          {setDetail.cardCount.holo !== undefined && (
+                          {setDetail?.cardCount?.holo !== undefined && (
                             <span className="text-sm bg-secondary px-3 py-1 rounded-md">
                               Holo: {setDetail.cardCount.holo}
                             </span>
