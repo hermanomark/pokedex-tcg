@@ -2,7 +2,13 @@ import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button"
 import FadeUp from "@/components/FadeUp";
 
-const BackButton = ({ onClick, className = "", children = "Back" }: { onClick?: () => void; className?: string; children?: React.ReactNode; }) => {
+interface BackButtonProps {
+  onClick?: () => void;
+  className?: string;
+  children?: React.ReactNode;
+}
+
+const BackButton = ({ onClick, className = "", children = "Back" }: BackButtonProps) => {
   const handleBack = () => {
     if (onClick) {
       onClick();

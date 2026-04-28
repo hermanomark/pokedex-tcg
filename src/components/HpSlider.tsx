@@ -1,12 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Slider } from '@/components/ui/slider';
 
+interface HpSliderProps {
+  onHPChange: (range: [number, number]) => void;
+  minHP?: number;
+  maxHP?: number;
+  currentRange?: [number, number];
+}
+
 const HpSlider = ({
   onHPChange,
   minHP = 0,
   maxHP = 380,
   currentRange = [0, 380]
-}: { onHPChange: (range: [number, number]) => void; minHP?: number; maxHP?: number; currentRange?: [number, number]; }) => {
+}: HpSliderProps) => {
   const [hpRange, setHpRange] = useState(currentRange);
 
   useEffect(() => {

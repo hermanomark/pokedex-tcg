@@ -5,7 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 
-const RaritiesFilter = ({ selectedRarities, onRaritiesChange }: { selectedRarities: string[]; onRaritiesChange: (rarities: string[]) => void; }) => {
+interface RaritiesFilterProps {
+  selectedRarities: string[];
+  onRaritiesChange: (rarities: string[]) => void;
+}
+
+const RaritiesFilter = ({ selectedRarities, onRaritiesChange }: RaritiesFilterProps) => {
   const {
     data: rarities = [],
     isLoading,

@@ -11,7 +11,12 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const CategoriesFilter = ({ selectedCategory, onCategoryChange }: { selectedCategory: string; onCategoryChange: (category: string) => void; }) => {
+interface CategoriesFilterProps {
+  selectedCategory: string;
+  onCategoryChange: (category: string) => void;
+}
+
+const CategoriesFilter = ({ selectedCategory, onCategoryChange }: CategoriesFilterProps) => {
   const {
     data: categories,
     isLoading,

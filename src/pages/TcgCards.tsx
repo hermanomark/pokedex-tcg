@@ -74,15 +74,16 @@ const TcgCards = () => {
       debouncedHpRange,
       sortBy],
     queryFn: ({ pageParam = 1 }) =>
-      getAllCards(
-        pageParam as number,
-        10,
-        debouncedSearchTerm,
-        selectedCategory,
-        selectedTypes,
-        selectedRarities,
-        debouncedHpRange,
-        sortBy),
+      getAllCards({
+        page: pageParam as number,
+        itemsPerPage: 10,
+        searchName: debouncedSearchTerm,
+        category: selectedCategory,
+        types: selectedTypes,
+        rarities: selectedRarities,
+        hpRange: debouncedHpRange,
+        sortBy
+      }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       if (!lastPage || (Array.isArray(lastPage) && (lastPage.length === 0 || lastPage.length < 10))) {
@@ -94,7 +95,7 @@ const TcgCards = () => {
   });
 
   const cards = (data?.pages ?? []).flatMap(page =>
-    page.filter((card: { image: string }) => card.image)
+    page.filter((card) => card.image)
   ) ?? [];
 
   const loadMoreRef = useRef<HTMLDivElement>(null);

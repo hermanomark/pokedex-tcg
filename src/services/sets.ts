@@ -1,11 +1,26 @@
 import api from './client';
 import { getErrorMessage } from '@/utils/errorHandler';
+import { type SetBrief, type SetBase, type CardBrief } from '@/types';
 
-export const getAllSets = async (
-  page: number = 1,
-  itemsPerPage: number = 10,
-  searchName?: string,
-  sortBy?: string) => {
+interface GetAllSetsParams {
+  page?: number;
+  itemsPerPage?: number;
+  searchName?: string;
+  sortBy?: string;
+}
+
+interface GetAllCardsInSetParams {
+  id: string;
+  page?: number;
+  itemsPerPage?: number;
+}
+
+export const getAllSets = async ({
+  page = 1,
+  itemsPerPage = 10,
+  searchName = '',
+  sortBy = ''
+}: GetAllSetsParams) => {
   try {
     let url = `/sets?pagination:page=${page}&pagination:itemsPerPage=${itemsPerPage}`;
 
@@ -21,7 +36,7 @@ export const getAllSets = async (
 
     console.log(url);
 
-    const response = await api.get(url);
+    const response = await api.get<SetBrief[]>(url);
 
     return response.data;
   } catch (error: unknown) {
@@ -33,7 +48,7 @@ export const getAllSets = async (
 
 export const getSetById = async (id: string) => {
   try {
-    const response = await api.get(`/sets/${id}`);
+    const response = await api.get<SetBase>(`/sets/${id}`);
 
     return response.data;
   } catch (error: unknown) {
@@ -43,11 +58,11 @@ export const getSetById = async (id: string) => {
   }
 }
 
-export const getAllCardsInSet = async (id: string, page = 1, itemsPerPage = 10) => {
+export const getAllCardsInSet = async ({ id, page = 1, itemsPerPage = 10 }: GetAllCardsInSetParams) => {
   try {
     const url: string = `/cards?pagination:page=${page}&pagination:itemsPerPage=${itemsPerPage}&set=eq:${id}`;
 
-    const response = await api.get(url);
+    const response = await api.get<CardBrief[]>(url);
 
     return response.data;
   } catch (error: unknown) {

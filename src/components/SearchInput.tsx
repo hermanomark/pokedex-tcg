@@ -8,7 +8,13 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group"
 
-const SearchInput = ({ onSearch, placeholder = "Search Pokemon cards...", value = '' }: { onSearch: (value: string) => void; placeholder?: string; value?: string; }) => {
+interface SearchInputProps {
+  onSearch: (value: string) => void;
+  placeholder?: string;
+  value?: string;
+}
+
+const SearchInput = ({ onSearch, placeholder = "Search Pokemon cards...", value = '' }: SearchInputProps) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

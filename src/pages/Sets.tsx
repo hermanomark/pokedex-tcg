@@ -39,7 +39,12 @@ const Sets = () => {
     isError
   } = useInfiniteQuery({
     queryKey: ['sets', debouncedSearchTerm, sortBy],
-    queryFn: ({ pageParam = 1 }) => getAllSets(pageParam as number, 10, debouncedSearchTerm, sortBy),
+    queryFn: ({ pageParam = 1 }) => getAllSets({
+      page: pageParam as number,
+      itemsPerPage: 10,
+      searchName: debouncedSearchTerm,
+      sortBy: sortBy
+    }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       if (!lastPage || (Array.isArray(lastPage) && (lastPage.length === 0 || lastPage.length < 10))) {
@@ -51,7 +56,7 @@ const Sets = () => {
   });
 
   const sets = (data?.pages ?? []).flatMap(page =>
-    page.filter((set: { logo: string }) => set.logo)
+    page.filter((set) => set.logo)
   ) ?? [];
 
   const loadMoreRef = useRef<HTMLDivElement>(null);

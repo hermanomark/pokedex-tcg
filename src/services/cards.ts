@@ -1,16 +1,28 @@
 import api from "./client";
 import { getErrorMessage } from "@/utils/errorHandler";
+import { type Card, type CardBrief } from "@/types";
 
-export const getAllCards = async (
-  page: number = 1,
-  itemsPerPage: number = 10,
-  searchName: string = '',
-  category: string = '',
-  types: string[] = [],
-  rarities: string[] = [],
-  hpRange: [number, number] = [0, 500],
-  sortBy: string = ''
-) => {
+interface GetAllCardsParams {
+  page?: number;
+  itemsPerPage?: number;
+  searchName?: string;
+  category?: string;
+  types?: string[];
+  rarities?: string[];
+  hpRange?: [number, number];
+  sortBy?: string;
+}
+
+export const getAllCards = async ({
+  page = 1,
+  itemsPerPage = 10,
+  searchName = '',
+  category = '',
+  types = [],
+  rarities = [],
+  hpRange = [0, 500],
+  sortBy = ''
+}: GetAllCardsParams) => {
   try {
     let url = `/cards?pagination:page=${page}&pagination:itemsPerPage=${itemsPerPage}`;
 
@@ -43,7 +55,9 @@ export const getAllCards = async (
 
     url += `&image=notnull:`;
 
-    const response = await api.get(url);
+    const response = await api.get<CardBrief[]>(url);
+
+    console.log(response.data);
 
     return response.data;
   } catch (error: unknown) {
@@ -55,7 +69,9 @@ export const getAllCards = async (
 
 export const getCardById = async (id: string) => {
   try {
-    const response = await api.get(`/cards/${id}`);
+    const response = await api.get<Card>(`/cards/${id}`);
+
+    console.log(response.data);
 
     return response.data;
   } catch (error: unknown) {

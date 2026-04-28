@@ -5,7 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 
-const TypesFilter = ({ selectedTypes, onTypesChange }: { selectedTypes: string[]; onTypesChange: (types: string[]) => void; }) => {
+interface TypesFilterProps {
+  selectedTypes: string[];
+  onTypesChange: (types: string[]) => void;
+}
+
+const TypesFilter = ({ selectedTypes, onTypesChange }: TypesFilterProps) => {
   const {
     data: types = [],
     isLoading,

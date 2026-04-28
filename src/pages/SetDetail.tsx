@@ -18,21 +18,26 @@ const SetDetail = () => {
 
   const { data: setDetail,
     isLoading,
-    error: errorSetDetail, isError: isErrorSetDetail } = useQuery({
-    queryKey: ["set", id],
-    queryFn: () => {
-      if (!id) throw new Error("Set ID is required");
-      return getSetById(id);
-    },
-    enabled: !!id,
-    retry: false
-  });
+    error: errorSetDetail, isError: isErrorSetDetail } =
+    useQuery({
+      queryKey: ["set", id],
+      queryFn: () => {
+        if (!id) throw new Error("Set ID is required");
+        return getSetById(id);
+      },
+      enabled: !!id,
+      retry: false
+    });
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ["setCards", id],
     queryFn: ({ pageParam = 1 }) => {
       if (!id) throw new Error("Set ID is required");
-      return getAllCardsInSet(id, pageParam, 10);
+      return getAllCardsInSet({
+        id: id,
+        page: pageParam,
+        itemsPerPage: 10
+      });
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {

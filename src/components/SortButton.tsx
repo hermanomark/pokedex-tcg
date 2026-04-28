@@ -8,7 +8,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-const SortButton = ({ onSortChange, currentSort, type }: { onSortChange: (sort: string) => void; currentSort: string; type: string; }) => {
+interface SortButtonProps {
+  onSortChange: (sort: string) => void;
+  currentSort: string;
+  type: string;
+}
+
+const SortButton = ({ onSortChange, currentSort, type }: SortButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   let sortOptions = [

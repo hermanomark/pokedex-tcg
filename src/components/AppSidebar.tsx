@@ -12,7 +12,13 @@ import {
 } from "@/components/ui/sidebar"
 import pokeballLogo from "@/assets/pokeball.svg";
 
-const items: Array<{ title: string; url: string; icon: React.ElementType }> = [
+interface SidebarItem {
+  title: string;
+  url: string;
+  icon: React.ElementType;
+}
+
+const sidebarItems: SidebarItem[] = [
   {
     title: "Home",
     url: "/",
@@ -43,7 +49,7 @@ const AppSidebar = () => {
           <SidebarGroupLabel><img className="dark:filter dark:brightness-0 dark:invert" src={pokeballLogo} alt="Pokedex TCG" width={24} height={24} /> &nbsp; Pokedex TCG</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {sidebarItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link to={item.url}>

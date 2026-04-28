@@ -1,7 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import FadeUp from './FadeUp';
 
-const Card = ({ card: { id, name, image, logo }, type }: { card: { id: string; name: string; image: string; logo: string; }; type: string }) => {
+interface CardProps {
+  card: {
+    id: string;
+    name: string;
+    image?: string;
+    logo?: string;
+  };
+  type: string;
+}
+
+const Card = ({ card: { id, name, image, logo }, type }: CardProps) => {
   const navigate = useNavigate();
 
   if (type === 'cards') return (
@@ -21,8 +31,7 @@ const Card = ({ card: { id, name, image, logo }, type }: { card: { id: string; n
         } else {
           navigate(`/series/${id}`);
         }
-      }}
-      className="cursor-pointer bg-card p-6 flex flex-col items-center justify-center w-full h-72 transform transition-all duration-300 hover:scale-105 hover:-translate-y-1 rounded-lg shadow-md hover:shadow-xl border border-border">
+      }} className="cursor-pointer bg-card p-6 flex flex-col items-center justify-center w-full h-72 transform transition-all duration-300 hover:scale-105 hover:-translate-y-1 rounded-lg shadow-md hover:shadow-xl border border-border">
         {logo && (<img
           className="w-48 h-48 object-contain mb-3"
           src={`${logo}.webp`}

@@ -1,10 +1,18 @@
 import api from './client';
 import { getErrorMessage } from '@/utils/errorHandler';
+import { type SeriesBase, type SeriesBrief } from '@/types';
 
-export const getAllSeries = async (
+interface GetAllSeriesParams {
+  page?: number;
+  itemsPerPage?: number;
+  sortBy?: string;
+}
+
+export const getAllSeries = async ({
   page = 1,
   itemsPerPage = 10,
-  sortBy: string = 'releaseDate:ASC') => {
+  sortBy = 'releaseDate:ASC'
+}: GetAllSeriesParams) => {
   try {
     let url = `/series?pagination:page=${page}&pagination:itemsPerPage=${itemsPerPage}`;
 
@@ -16,7 +24,7 @@ export const getAllSeries = async (
 
     console.log(url);
 
-    const response = await api.get(url);
+    const response = await api.get<SeriesBrief[]>(url);
 
     return response.data;
   } catch (error: unknown) {
@@ -28,7 +36,7 @@ export const getAllSeries = async (
 
 export const getSeriesById = async (id: string) => {
   try {
-    const response = await api.get(`/series/${id}`);
+    const response = await api.get<SeriesBase>(`/series/${id}`);
 
     return response.data;
   } catch (error: unknown) {
